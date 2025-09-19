@@ -234,45 +234,6 @@
 					"response": []
 				},
 				{
-					"name": "Create Responsibility",
-					"id": "2015465-b3809380-b6f8-4341-947a-6d6114d0f06f",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Notion-Version",
-								"value": "{{NOTION_VERSION}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"parent\": {\n    \"database_id\": \"{{RESPONSIBILITIES_DB_ID}}\"\n  },\n  \"properties\": {\n    \"Name\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"Software Development\"\n          }\n        }\n      ]\n    },\n    \"Description\": {\n      \"rich_text\": [\n        {\n          \"text\": {\n            \"content\": \"Writing and maintaining code, APIs, and development tools\"\n          }\n        }\n      ]\n    }\n  }\n}"
-						},
-						"url": {
-							"raw": "https://api.notion.com/v1/pages",
-							"protocol": "https",
-							"host": [
-								"api",
-								"notion",
-								"com"
-							],
-							"path": [
-								"v1",
-								"pages"
-							]
-						},
-						"description": "Create a new responsibility with name and description"
-					},
-					"response": []
-				},
-				{
 					"name": "Update Timesheet",
 					"id": "2015465-38660199-c84d-4db6-a033-c72a75ef5354",
 					"protocolProfileBehavior": {
