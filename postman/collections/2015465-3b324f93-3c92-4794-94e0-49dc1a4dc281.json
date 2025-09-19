@@ -235,45 +235,6 @@
 					"response": []
 				},
 				{
-					"name": "Search All Pages",
-					"id": "2015465-437cc5ea-0456-475c-baba-65a8f0a46124",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Notion-Version",
-								"value": "{{NOTION_VERSION}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"query\": \"coding\",\n  \"filter\": {\n    \"value\": \"page\",\n    \"property\": \"object\"\n  }\n}"
-						},
-						"url": {
-							"raw": "https://api.notion.com/v1/search",
-							"protocol": "https",
-							"host": [
-								"api",
-								"notion",
-								"com"
-							],
-							"path": [
-								"v1",
-								"search"
-							]
-						},
-						"description": "Search across all pages in the workspace"
-					},
-					"response": []
-				},
-				{
 					"name": "Today's Timesheets",
 					"id": "2015465-06dd5b9d-1c50-4de0-85f5-c965b4f728e7",
 					"protocolProfileBehavior": {
