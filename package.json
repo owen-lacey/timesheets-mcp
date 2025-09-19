@@ -1,0 +1,26 @@
+{
+  "name": "timesheets-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for my timesheets",
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/server.js",
+    "dev": "ts-node-esm src/server.ts",
+    "inspect": "npx @modelcontextprotocol/inspector node build/src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Owen Lacey",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.4",
+    "dotenv": "^17.2.1",
+    "node-fetch": "^3.3.2",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.2.2"
+  }
+}
