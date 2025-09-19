@@ -112,47 +112,6 @@
 			"name": "2. Query Existing Data",
 			"item": [
 				{
-					"name": "Query Activities by Name",
-					"id": "2015465-1520e75d-86b0-4ef7-ba62-c0d6a12e1a4d",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Notion-Version",
-								"value": "{{NOTION_VERSION}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"filter\": {\n    \"property\": \"Name\",\n    \"title\": {\n      \"contains\": \"coding\"\n    }\n  }\n}"
-						},
-						"url": {
-							"raw": "https://api.notion.com/v1/databases/{{ACTIVITIES_DB_ID}}/query",
-							"protocol": "https",
-							"host": [
-								"api",
-								"notion",
-								"com"
-							],
-							"path": [
-								"v1",
-								"databases",
-								"{{ACTIVITIES_DB_ID}}",
-								"query"
-							]
-						},
-						"description": "Search for activities containing specific text"
-					},
-					"response": []
-				},
-				{
 					"name": "Query Responsibilities by Name",
 					"id": "2015465-9fe8c584-adc9-4706-b3c8-8cf81187f1da",
 					"protocolProfileBehavior": {
