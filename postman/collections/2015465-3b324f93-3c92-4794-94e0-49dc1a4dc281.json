@@ -1,0 +1,588 @@
+{
+	"info": {
+		"_postman_id": "2015465-3b324f93-3c92-4794-94e0-49dc1a4dc281",
+		"name": "Notion Timesheet MCP",
+		"description": "Collection for Notion API calls to manage timesheets, activities, and responsibilities",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Database Schemas",
+			"item": [
+				{
+					"name": "Get Timesheets Database Schema",
+					"id": "2015465-106918cb-4083-4f26-882d-b2ace515ecb1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{TIMESHEETS_DB_ID}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{TIMESHEETS_DB_ID}}"
+							]
+						},
+						"description": "Get the schema and properties of the Timesheets database"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Activities Database Schema",
+					"id": "2015465-fc219871-9aaa-4190-8f47-402d70eaffc8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{ACTIVITIES_DB_ID}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{ACTIVITIES_DB_ID}}"
+							]
+						},
+						"description": "Get the schema and properties of the Activities database"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Responsibilities Database Schema",
+					"id": "2015465-09d3d980-5e05-40d6-ad76-828a683409ab",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{RESPONSIBILITIES_DB_ID}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{RESPONSIBILITIES_DB_ID}}"
+							]
+						},
+						"description": "Get the schema and properties of the Responsibilities database"
+					},
+					"response": []
+				}
+			],
+			"id": "2015465-29837b72-8b92-41e6-9558-0b032313cb15"
+		},
+		{
+			"name": "2. Query Existing Data",
+			"item": [
+				{
+					"name": "Query Activities by Name",
+					"id": "2015465-1520e75d-86b0-4ef7-ba62-c0d6a12e1a4d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"filter\": {\n    \"property\": \"Name\",\n    \"title\": {\n      \"contains\": \"coding\"\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{ACTIVITIES_DB_ID}}/query",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{ACTIVITIES_DB_ID}}",
+								"query"
+							]
+						},
+						"description": "Search for activities containing specific text"
+					},
+					"response": []
+				},
+				{
+					"name": "Query Responsibilities by Name",
+					"id": "2015465-9fe8c584-adc9-4706-b3c8-8cf81187f1da",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"filter\": {\n    \"property\": \"Name\",\n    \"title\": {\n      \"contains\": \"engineering\"\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{RESPONSIBILITIES_DB_ID}}/query",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{RESPONSIBILITIES_DB_ID}}",
+								"query"
+							]
+						},
+						"description": "Search for responsibilities containing specific text"
+					},
+					"response": []
+				},
+				{
+					"name": "Query Recent Timesheets",
+					"id": "2015465-43c9139b-4da3-4dce-9b8e-bb9d78fac8ea",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sorts\": [\n    {\n      \"property\": \"Date\",\n      \"direction\": \"descending\"\n    }\n  ],\n  \"page_size\": 10\n}"
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{TIMESHEETS_DB_ID}}/query",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{TIMESHEETS_DB_ID}}",
+								"query"
+							]
+						},
+						"description": "Get the 10 most recent timesheet entries"
+					},
+					"response": []
+				},
+				{
+					"name": "Search All Pages",
+					"id": "2015465-437cc5ea-0456-475c-baba-65a8f0a46124",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"coding\",\n  \"filter\": {\n    \"value\": \"page\",\n    \"property\": \"object\"\n  }\n}"
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/search",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"search"
+							]
+						},
+						"description": "Search across all pages in the workspace"
+					},
+					"response": []
+				},
+				{
+					"name": "Today's Timesheets",
+					"id": "2015465-06dd5b9d-1c50-4de0-85f5-c965b4f728e7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Search Timesheets",
+					"id": "2015465-b179b669-cb23-41c1-87b0-aca00fd1d4aa",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Active timesheets",
+					"id": "2015465-34e5ef3b-e339-4983-80f1-693bff0e95cd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"id": "2015465-998a4873-fb41-4a93-b2d1-14f2c7ec8d74"
+		},
+		{
+			"name": "3. Create New Entries",
+			"item": [
+				{
+					"name": "Create Timesheet Entry",
+					"id": "2015465-7f5ee6ad-841d-4c64-921b-47a24b1aad87",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent\": {\n    \"database_id\": \"{{TIMESHEETS_DB_ID}}\"\n  },\n  \"properties\": {\n    \"Desc\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"Working on MCP server development\"\n          }\n        }\n      ]\n    },\n    \"Date\": {\n      \"date\": {\n        \"start\": \"2025-09-19\"\n      }\n    },\n    \"Start\": {\n      \"rich_text\": [\n        {\n          \"text\": {\n            \"content\": \"09:00\"\n          }\n        }\n      ]\n    },\n    \"End\": {\n      \"rich_text\": [\n        {\n          \"text\": {\n            \"content\": \"12:30\"\n          }\n        }\n      ]\n    },\n    \"Activities\": {\n      \"relation\": [\n        {\n          \"id\": \"ACTIVITY_PAGE_ID_HERE\"\n        }\n      ]\n    },\n    \"Topics\": {\n      \"relation\": [\n        {\n          \"id\": \"TOPIC_PAGE_ID_HERE\"\n        }\n      ]\n    },\n    \"\": {\n      \"select\": {\n        \"name\": \"😁\"\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/pages",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages"
+							]
+						},
+						"description": "Create a new timesheet entry with description, date, times, activity, topic, and mood"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Activity",
+					"id": "2015465-08c1bf1f-cf79-4dab-b79c-054147a26b93",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent\": {\n    \"database_id\": \"{{ACTIVITIES_DB_ID}}\"\n  },\n  \"properties\": {\n    \"Name\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"MCP Development\"\n          }\n        }\n      ]\n    },\n    \"Responsibilities\": {\n      \"relation\": [\n        {\n          \"id\": \"RESPONSIBILITY_PAGE_ID_HERE\"\n        }\n      ]\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/pages",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages"
+							]
+						},
+						"description": "Create a new activity with name and associated responsibility"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Responsibility",
+					"id": "2015465-b3809380-b6f8-4341-947a-6d6114d0f06f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent\": {\n    \"database_id\": \"{{RESPONSIBILITIES_DB_ID}}\"\n  },\n  \"properties\": {\n    \"Name\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"Software Development\"\n          }\n        }\n      ]\n    },\n    \"Description\": {\n      \"rich_text\": [\n        {\n          \"text\": {\n            \"content\": \"Writing and maintaining code, APIs, and development tools\"\n          }\n        }\n      ]\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/pages",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages"
+							]
+						},
+						"description": "Create a new responsibility with name and description"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Timesheet",
+					"id": "2015465-38660199-c84d-4db6-a033-c72a75ef5354",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{NOTION_TOKEN}}"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"properties\": {\n    \"End\": {\n      \"rich_text\": [\n        {\n          \"text\": {\n            \"content\": \"17:30\"\n          }\n        }\n      ]\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/pages/{{TIMESHEETS_DB_ID}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages",
+								"{{TIMESHEETS_DB_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "2015465-04164892-762d-4a41-a740-06ad04464bdd"
+		},
+		{
+			"name": "4. Templates & Examples",
+			"item": [
+				{
+					"name": "Create Timesheet - Minimal",
+					"id": "2015465-89097779-481c-4573-8afd-19043c06c6d8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent\": {\n    \"database_id\": \"{{TIMESHEETS_DB_ID}}\"\n  },\n  \"properties\": {\n    \"Desc\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"Daily standup\"\n          }\n        }\n      ]\n    },\n    \"Date\": {\n      \"date\": {\n        \"start\": \"2025-09-19\"\n      }\n    },\n    \"Start\": {\n      \"rich_text\": [\n        {\n          \"text\": {\n            \"content\": \"09:00\"\n          }\n        }\n      ]\n    },\n    \"End\": {\n      \"rich_text\": [\n        {\n          \"text\": {\n            \"content\": \"09:15\"\n          }\n        }\n      ]\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/pages",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages"
+							]
+						},
+						"description": "Create a minimal timesheet entry with just description, date, and times"
+					},
+					"response": []
+				}
+			],
+			"id": "2015465-16fe9160-bc97-4863-989d-6aaed385c374"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{NOTION_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8b257c7e-65f6-4ad5-8276-84776bb337f1",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a5ba05dc-fdf9-4361-840f-267be9c16cf2",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "NOTION_VERSION",
+			"value": "2022-06-28"
+		},
+		{
+			"key": "TIMESHEETS_DB_ID",
+			"value": "21e237bae7d080aba000d6d07e487b57"
+		},
+		{
+			"key": "ACTIVITIES_DB_ID",
+			"value": "21e237bae7d080a69b52ebfc36222922"
+		},
+		{
+			"key": "RESPONSIBILITIES_DB_ID",
+			"value": "21e237bae7d080d9a746c3db0ec29dc1"
+		},
+		{
+			"key": "NOTION_TOKEN",
+			"value": ""
+		}
+	]
+}
