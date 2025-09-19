@@ -112,47 +112,6 @@
 			"name": "2. Query Existing Data",
 			"item": [
 				{
-					"name": "Query Responsibilities by Name",
-					"id": "2015465-9fe8c584-adc9-4706-b3c8-8cf81187f1da",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Notion-Version",
-								"value": "{{NOTION_VERSION}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"filter\": {\n    \"property\": \"Name\",\n    \"title\": {\n      \"contains\": \"engineering\"\n    }\n  }\n}"
-						},
-						"url": {
-							"raw": "https://api.notion.com/v1/databases/{{RESPONSIBILITIES_DB_ID}}/query",
-							"protocol": "https",
-							"host": [
-								"api",
-								"notion",
-								"com"
-							],
-							"path": [
-								"v1",
-								"databases",
-								"{{RESPONSIBILITIES_DB_ID}}",
-								"query"
-							]
-						},
-						"description": "Search for responsibilities containing specific text"
-					},
-					"response": []
-				},
-				{
 					"name": "Query Recent Timesheets",
 					"id": "2015465-43c9139b-4da3-4dce-9b8e-bb9d78fac8ea",
 					"protocolProfileBehavior": {
@@ -271,45 +230,6 @@
 							]
 						},
 						"description": "Create a new timesheet entry with description, date, times, activity, topic, and mood"
-					},
-					"response": []
-				},
-				{
-					"name": "Create Activity",
-					"id": "2015465-08c1bf1f-cf79-4dab-b79c-054147a26b93",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Notion-Version",
-								"value": "{{NOTION_VERSION}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"parent\": {\n    \"database_id\": \"{{ACTIVITIES_DB_ID}}\"\n  },\n  \"properties\": {\n    \"Name\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"MCP Development\"\n          }\n        }\n      ]\n    },\n    \"Responsibilities\": {\n      \"relation\": [\n        {\n          \"id\": \"RESPONSIBILITY_PAGE_ID_HERE\"\n        }\n      ]\n    }\n  }\n}"
-						},
-						"url": {
-							"raw": "https://api.notion.com/v1/pages",
-							"protocol": "https",
-							"host": [
-								"api",
-								"notion",
-								"com"
-							],
-							"path": [
-								"v1",
-								"pages"
-							]
-						},
-						"description": "Create a new activity with name and associated responsibility"
 					},
 					"response": []
 				},
