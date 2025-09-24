@@ -15,8 +15,19 @@ process.stdout.write = originalWrite;
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { getCurrentDate, formatTimesheetEntry } from './utils/helpers.js';
-import { getTodaysTimesheets } from './utils/notion-api.js';
+import { z } from "zod";
+
+// Import tool implementations
+import { getTodaysTimesheetsTool } from './tools/getTodaysTimesheets.js';
+import { getTimesheetsByDateRangeTool } from './tools/getTimesheetsByDateRange.js';
+import { getDatabaseMetadataTool } from './tools/getDatabaseMetadata.js';
+import { startTimesheetTool } from './tools/startTimesheet.js';
+import { endTimesheetTool } from './tools/endTimesheet.js';
+import { updateTimesheetMoodTool } from './tools/updateTimesheetMood.js';
+import { searchActivitiesTool } from './tools/searchActivities.js';
+import { searchResponsibilitiesTool } from './tools/searchResponsibilities.js';
+
+// We don't need to import the schemas since we're defining them inline
 
 const notionApiKey = process.env.NOTION_API_KEY;
 if (typeof notionApiKey !== "string" || notionApiKey.trim() === "") {
@@ -46,36 +57,117 @@ const server = new McpServer({
 
 // Tool 1: Get today's timesheets
 server.registerTool('getTodaysTimesheets', {
-  title: "Get Today's Timesheets",
   description: "Retrieves all timesheet entries for today's date",
   inputSchema: {}
 }, async () => {
-  try {
-    const today = getCurrentDate();
-    const data = await getTodaysTimesheets(timesheetsDatabaseId, today);
+  return await getTodaysTimesheetsTool(timesheetsDatabaseId);
+});
 
-    const timesheets = await Promise.all(
-      data.results.map((page: any) => formatTimesheetEntry(page))
-    );
+// Tool 2: Get timesheets by date range
+server.registerTool('getTimesheetsByDateRange', {
+  description: "Retrieves timesheet entries for a specific date or date range",
+  inputSchema: {
+    startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format"),
+    endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format").optional()
+  }
+}, async (request: any) => {
+  // The request object contains the parameters directly, not under request.params
+  const inputObject = {
+    startDate: request.startDate,
+    endDate: request.endDate
+  };
+  return await getTimesheetsByDateRangeTool(timesheetsDatabaseId, inputObject);
+});
 
+// Tool 3: Get database metadata
+server.registerTool('getDatabaseMetadata', {
+  description: "Retrieves schema information for timesheets, activities, and responsibilities databases",
+  inputSchema: {
+    databaseType: z.enum(["timesheets", "activities", "responsibilities", "all"]).default("all")
+  }
+}, async (request: any) => {
+  return await getDatabaseMetadataTool(
+    timesheetsDatabaseId,
+    actitiviesDatabaseId,
+    responsibilitiesDatabaseId,
+    request
+  );
+});
+
+// Tool 4: Start timesheet
+server.registerTool('startTimesheet', {
+  description: "Creates a new timesheet entry with current timestamp as start time",
+  inputSchema: {
+    description: z.string().min(1, "Description is required"),
+    activityId: z.string().optional(),
+    topicId: z.string().optional(),
+    startTime: z.string().regex(/^\d{2}:\d{2}$/, "Start time must be in HH:MM format").optional()
+  }
+}, async (request: any) => {
+  return await startTimesheetTool(timesheetsDatabaseId, request);
+});
+
+// Tool 5: End timesheet
+server.registerTool('endTimesheet', {
+  description: "Updates an existing timesheet entry with end time and mood",
+  inputSchema: {
+    timesheetId: z.string().min(1, "Timesheet ID is required"),
+    mood: z.string().min(1, "Mood is required"),
+    endTime: z.string().regex(/^\d{2}:\d{2}$/, "End time must be in HH:MM format").optional()
+  }
+}, async (request: any) => {
+  return await endTimesheetTool(request);
+});
+
+// Tool 6: Update timesheet mood
+server.registerTool('updateTimesheetMood', {
+  description: "Updates the mood of an existing timesheet entry",
+  inputSchema: {
+    timesheetId: z.string().min(1, "Timesheet ID is required"),
+    mood: z.string().min(1, "Mood is required")
+  }
+}, async (request: any) => {
+  return await updateTimesheetMoodTool(request);
+});
+
+// Tool 7: Search activities
+server.registerTool('searchActivities', {
+  description: "Search for activities by name",
+  inputSchema: {
+    searchText: z.string().min(1, "Search text is required")
+  }
+}, async (request: any) => {
+  if (!actitiviesDatabaseId) {
     return {
       content: [
         {
-          type: "text",
-          text: `Found ${timesheets.length} timesheet entries for ${today}:\n\n${JSON.stringify(timesheets, null, 2)}`
-        }
-      ]
-    };
-  } catch (error) {
-    return {
-      content: [
-        {
-          type: "text",
-          text: `Error fetching today's timesheets: ${error}`
+          type: "text" as const,
+          text: "Activities database ID not configured"
         }
       ]
     };
   }
+  return await searchActivitiesTool(actitiviesDatabaseId, request);
+});
+
+// Tool 8: Search responsibilities
+server.registerTool('searchResponsibilities', {
+  description: "Search for responsibilities by name",
+  inputSchema: {
+    searchText: z.string().min(1, "Search text is required")
+  }
+}, async (request: any) => {
+  if (!responsibilitiesDatabaseId) {
+    return {
+      content: [
+        {
+          type: "text" as const,
+          text: "Responsibilities database ID not configured"
+        }
+      ]
+    };
+  }
+  return await searchResponsibilitiesTool(responsibilitiesDatabaseId, request);
 });
 
 // Start receiving messages on stdin and sending messages on stdout

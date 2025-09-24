@@ -198,17 +198,41 @@ export async function createTimesheet(
   return createPage(pageData);
 }
 
-export async function endTimesheet(timesheetId: string, endTime: string) {
+export async function endTimesheet(timesheetId: string, endTime: string, mood?: string) {
+  const properties: any = {
+    "End": {
+      "rich_text": [
+        {
+          "text": {
+            "content": endTime
+          }
+        }
+      ]
+    }
+  };
+
+  if (mood) {
+    properties[""] = {
+      "select": {
+        "name": mood
+      }
+    };
+  }
+
+  const updateData = {
+    properties
+  };
+
+  return updatePage(timesheetId, updateData);
+}
+
+export async function updateTimesheetMood(timesheetId: string, mood: string) {
   const updateData = {
     properties: {
-      "End": {
-        "rich_text": [
-          {
-            "text": {
-              "content": endTime
-            }
-          }
-        ]
+      "": {
+        "select": {
+          "name": mood
+        }
       }
     }
   };
@@ -305,7 +329,7 @@ export async function getActivityDetails(activityId: string) {
     const response = await notionRequest(`https://api.notion.com/v1/pages/${activityId}`);
     const properties = response.properties;
     
-    const responsibilityId = properties.Responsibility?.relation?.[0]?.id || null;
+    const responsibilityId = properties.Responsibilities?.relation?.[0]?.id || null;
     let responsibility = null;
     
     // Fetch responsibility details if available
