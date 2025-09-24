@@ -160,7 +160,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Activity",
 					"id": "2015465-8cfda528-0d47-44f5-8cdd-0419d69216cb",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
