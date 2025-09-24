@@ -5,8 +5,8 @@
   "type": "module",
   "main": "build/index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node build/server.js",
+    "build": "tsc && cp .env build/",
+    "start": "node build/src/server.js",
     "dev": "ts-node-esm src/server.ts",
     "inspect": "npx @modelcontextprotocol/inspector node build/src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
