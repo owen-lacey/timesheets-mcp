@@ -155,7 +155,34 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_NOTION_API_KEY"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.notion.com/v1/pages/21e237ba-e7d0-8022-8003-d8d8c7a53f49",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages",
+								"21e237ba-e7d0-8022-8003-d8d8c7a53f49"
+							]
+						}
 					},
 					"response": []
 				},
