@@ -343,7 +343,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"parent\": {\n    \"database_id\": \"{{TOPICS_DB_ID}}\"\n  },\n  \"properties\": {\n    \"Name\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"New Project Management\"\n          }\n        }\n      ]\n    },\n    \"Description\": {\n      \"rich_text\": [\n        {\n          \"text\": {\n            \"content\": \"Managing and coordinating new project initiatives\"\n          }\n        }\n      ]\n    }\n  }\n}",
+							"raw": "{\n  \"parent\": {\n    \"database_id\": \"{{TOPICS_DB_ID}}\"\n  },\n  \"properties\": {\n    \"Title\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"New Project Management\"\n          }\n        }\n      ]\n    },\n    \"Text\": {\n      \"rich_text\": [\n        {\n          \"text\": {\n            \"content\": \"Managing and coordinating new project initiatives\"\n          }\n        }\n      ]\n    }\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -364,6 +364,95 @@
 							]
 						},
 						"description": "Create a new topic/responsibility entry with name and optional description"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Activity",
+					"id": "2015465-create-activity-001",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent\": {\n    \"database_id\": \"{{ACTIVITIES_DB_ID}}\"\n  },\n  \"properties\": {\n    \"Name\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"Code Review\"\n          }\n        }\n      ]\n    },\n    \"Responsibilities\": {\n      \"relation\": [\n        {\n          \"id\": \"RESPONSIBILITY_PAGE_ID_HERE\"\n        }\n      ]\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/pages",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages"
+							]
+						},
+						"description": "Create a new activity entry with name and optional responsibility link"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Activity",
+					"id": "2015465-update-activity-001",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"properties\": {\n    \"Name\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"Updated Activity Name\"\n          }\n        }\n      ]\n    },\n    \"Responsibilities\": {\n      \"relation\": [\n        {\n          \"id\": \"NEW_RESPONSIBILITY_PAGE_ID_HERE\"\n        }\n      ]\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/pages/{{ACTIVITY_PAGE_ID}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages",
+								"{{ACTIVITY_PAGE_ID}}"
+							]
+						},
+						"description": "Update an existing activity entry with new name and/or responsibility link"
 					},
 					"response": []
 				}
@@ -471,7 +560,11 @@
 		},
 		{
 			"key": "TOPICS_DB_ID",
-			"value": ""
+			"value": "21e237bae7d0816a860fdb845eb19d27"
+		},
+		{
+			"key": "ACTIVITY_PAGE_ID",
+			"value": "REPLACE_WITH_ACTUAL_ACTIVITY_ID"
 		},
 		{
 			"key": "NOTION_TOKEN",

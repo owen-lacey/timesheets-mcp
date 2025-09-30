@@ -7,6 +7,7 @@ export async function getDatabaseMetadataTool(
   timesheetsDatabaseId: string,
   activitiesDatabaseId?: string,
   responsibilitiesDatabaseId?: string,
+  topicsDatabaseId?: string,
   input?: DatabaseMetadataInput
 ) {
   try {
@@ -53,6 +54,19 @@ export async function getDatabaseMetadataTool(
         };
       } catch (error) {
         results.responsibilities = { error: `Failed to fetch responsibilities schema: ${error}` };
+      }
+    }
+
+    if ((databaseType === "all" || databaseType === "topics") && topicsDatabaseId) {
+      try {
+        const topicsSchema = await getDatabaseSchema(topicsDatabaseId);
+        results.topics = {
+          id: topicsSchema.id,
+          title: topicsSchema.title?.[0]?.text?.content || "Topics",
+          properties: topicsSchema.properties
+        };
+      } catch (error) {
+        results.topics = { error: `Failed to fetch topics schema: ${error}` };
       }
     }
 

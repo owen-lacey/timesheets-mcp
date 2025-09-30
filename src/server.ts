@@ -26,6 +26,10 @@ import { endTimesheetTool } from './tools/endTimesheet.js';
 import { updateTimesheetMoodTool } from './tools/updateTimesheetMood.js';
 import { searchActivitiesTool } from './tools/searchActivities.js';
 import { searchResponsibilitiesTool } from './tools/searchResponsibilities.js';
+import { createTopicTool } from './tools/createTopic.js';
+import { searchTopicsTool } from './tools/searchTopics.js';
+import { handleCreateActivity } from './tools/createActivity.js';
+import { handleUpdateActivity } from './tools/updateActivity.js';
 
 // We don't need to import the schemas since we're defining them inline
 
@@ -47,6 +51,11 @@ if (actitiviesDatabaseId !== undefined && (typeof actitiviesDatabaseId !== "stri
 const responsibilitiesDatabaseId = process.env.RESPONSIBILITIES_DB_ID;
 if (responsibilitiesDatabaseId !== undefined && (typeof responsibilitiesDatabaseId !== "string" || responsibilitiesDatabaseId.trim() === "")) {
   throw new Error('RESPONSIBILITIES_DB_ID is set but empty in environment variables.');
+}
+
+const topicsDatabaseId = process.env.TOPICS_DB_ID;
+if (topicsDatabaseId !== undefined && (typeof topicsDatabaseId !== "string" || topicsDatabaseId.trim() === "")) {
+  throw new Error('TOPICS_DB_ID is set but empty in environment variables.');
 }
 
 // MCP server setup
@@ -81,15 +90,16 @@ server.registerTool('getTimesheetsByDateRange', {
 
 // Tool 3: Get database metadata
 server.registerTool('getDatabaseMetadata', {
-  description: "Retrieves schema information for timesheets, activities, and responsibilities databases",
+  description: "Retrieves schema information for timesheets, activities, responsibilities, and topics databases",
   inputSchema: {
-    databaseType: z.enum(["timesheets", "activities", "responsibilities", "all"]).default("all")
+    databaseType: z.enum(["timesheets", "activities", "responsibilities", "topics", "all"]).default("all")
   }
 }, async (request: any) => {
   return await getDatabaseMetadataTool(
     timesheetsDatabaseId,
     actitiviesDatabaseId,
     responsibilitiesDatabaseId,
+    topicsDatabaseId,
     request
   );
 });
@@ -168,6 +178,90 @@ server.registerTool('searchResponsibilities', {
     };
   }
   return await searchResponsibilitiesTool(responsibilitiesDatabaseId, request);
+});
+
+// Tool 9: Create new topic/responsibility
+server.registerTool('createTopic', {
+  description: "Create a new topic/responsibility entry",
+  inputSchema: {
+    name: z.string().min(1, "Topic name is required"),
+    description: z.string().optional()
+  }
+}, async (request: any) => {
+  if (!topicsDatabaseId) {
+    return {
+      content: [
+        {
+          type: "text" as const,
+          text: "Topics database ID not configured"
+        }
+      ]
+    };
+  }
+  return await createTopicTool(topicsDatabaseId, request);
+});
+
+// Tool 10: Search topics
+server.registerTool('searchTopics', {
+  description: "Search for topics by name",
+  inputSchema: {
+    searchText: z.string().min(1, "Search text is required")
+  }
+}, async (request: any) => {
+  if (!topicsDatabaseId) {
+    return {
+      content: [
+        {
+          type: "text" as const,
+          text: "Topics database ID not configured"
+        }
+      ]
+    };
+  }
+  return await searchTopicsTool(topicsDatabaseId, request);
+});
+
+// Tool 11: Create new activity
+server.registerTool('createActivity', {
+  description: "Create a new activity entry",
+  inputSchema: {
+    name: z.string().min(1, "Activity name is required"),
+    responsibilityId: z.string().optional()
+  }
+}, async (request: any) => {
+  if (!actitiviesDatabaseId) {
+    return {
+      content: [
+        {
+          type: "text" as const,
+          text: "Activities database ID not configured (ACTIVITIES_DB_ID)"
+        }
+      ]
+    };
+  }
+  return await handleCreateActivity(request);
+});
+
+// Tool 12: Update activity
+server.registerTool('updateActivity', {
+  description: "Update an existing activity entry",
+  inputSchema: {
+    activityId: z.string().min(1, "Activity ID is required"),
+    name: z.string().min(1, "Activity name is required").optional(),
+    responsibilityId: z.string().optional()
+  }
+}, async (request: any) => {
+  if (!actitiviesDatabaseId) {
+    return {
+      content: [
+        {
+          type: "text" as const,
+          text: "Activities database ID not configured (ACTIVITIES_DB_ID)"
+        }
+      ]
+    };
+  }
+  return await handleUpdateActivity(request);
 });
 
 // Start receiving messages on stdin and sending messages on stdout

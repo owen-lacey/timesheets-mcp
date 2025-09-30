@@ -198,6 +198,130 @@ export async function createTimesheet(
   return createPage(pageData);
 }
 
+export async function createTopic(
+  topicsDatabaseId: string,
+  name: string,
+  description?: string
+) {
+  const properties: any = {
+    "Title": {
+      "title": [
+        {
+          "text": {
+            "content": name
+          }
+        }
+      ]
+    }
+  };
+
+  // Add description if provided (using Text field as per schema)
+  if (description) {
+    properties["Text"] = {
+      "rich_text": [
+        {
+          "text": {
+            "content": description
+          }
+        }
+      ]
+    };
+  }
+
+  const pageData = {
+    parent: {
+      database_id: topicsDatabaseId
+    },
+    properties
+  };
+
+  return createPage(pageData);
+}
+
+export async function createActivity(
+  activitiesDatabaseId: string,
+  name: string,
+  responsibilityId?: string
+) {
+  const properties: any = {
+    "Name": {
+      "title": [
+        {
+          "text": {
+            "content": name
+          }
+        }
+      ]
+    }
+  };
+
+  // Add responsibility relationship if provided
+  if (responsibilityId) {
+    properties["Responsibilities"] = {
+      "relation": [
+        {
+          "id": responsibilityId
+        }
+      ]
+    };
+  }
+
+  const pageData = {
+    parent: {
+      database_id: activitiesDatabaseId
+    },
+    properties
+  };
+
+  return createPage(pageData);
+}
+
+export async function updateActivity(
+  activityId: string,
+  name?: string,
+  responsibilityId?: string
+) {
+  const properties: any = {};
+
+  // Update name if provided
+  if (name) {
+    properties["Name"] = {
+      "title": [
+        {
+          "text": {
+            "content": name
+          }
+        }
+      ]
+    };
+  }
+
+  // Update responsibility relationship if provided
+  if (responsibilityId !== undefined) {
+    if (responsibilityId === "") {
+      // Clear the relationship
+      properties["Responsibilities"] = {
+        "relation": []
+      };
+    } else {
+      // Set the relationship
+      properties["Responsibilities"] = {
+        "relation": [
+          {
+            "id": responsibilityId
+          }
+        ]
+      };
+    }
+  }
+
+  const updateData = {
+    properties
+  };
+
+  return updatePage(activityId, updateData);
+}
+
 export async function endTimesheet(timesheetId: string, endTime: string, mood?: string) {
   const properties: any = {
     "End": {
@@ -403,6 +527,63 @@ export async function getResponsibilityDetails(responsibilityId: string) {
     
     // Cache the fallback data as well to avoid repeated failed requests
     responsibilityCache.set(responsibilityId, {
+      data: fallbackData,
+      timestamp: now
+    });
+    
+    return fallbackData;
+  }
+}
+
+// Topics-specific functions (using correct property names)
+export async function searchTopics(topicsDatabaseId: string, searchText: string) {
+  const queryBody = {
+    filter: {
+      property: "Title",
+      title: {
+        contains: searchText
+      }
+    }
+  };
+  
+  return queryDatabase(topicsDatabaseId, queryBody);
+}
+
+// Helper function to get topic details by ID with caching
+export async function getTopicDetails(topicId: string) {
+  // Check cache first  
+  const cached = responsibilityCache.get(topicId);
+  const now = Date.now();
+  
+  if (cached && (now - cached.timestamp) < CACHE_EXPIRY_MS) {
+    return cached.data;
+  }
+  
+  try {
+    const response = await notionRequest(`https://api.notion.com/v1/pages/${topicId}`);
+    const properties = response.properties;
+    
+    const topicData = {
+      id: topicId,
+      name: properties.Title?.title?.[0]?.text?.content || '',
+    };
+    
+    // Cache the result (reusing responsibility cache for topics)
+    responsibilityCache.set(topicId, {
+      data: topicData,
+      timestamp: now
+    });
+    
+    return topicData;
+  } catch (error) {
+    console.error(`Error fetching topic ${topicId}:`, error);
+    const fallbackData = {
+      id: topicId,
+      name: `Unknown Topic (${topicId})`,
+    };
+    
+    // Cache the fallback data as well to avoid repeated failed requests
+    responsibilityCache.set(topicId, {
       data: fallbackData,
       timestamp: now
     });

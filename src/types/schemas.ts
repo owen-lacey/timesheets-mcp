@@ -10,7 +10,7 @@ export const DateRangeInputSchema = z.object({
 
 // Schema for database metadata queries
 export const DatabaseMetadataInputSchema = z.object({
-  databaseType: z.enum(["timesheets", "activities", "responsibilities", "all"]).default("all")
+  databaseType: z.enum(["timesheets", "activities", "responsibilities", "topics", "all"]).default("all")
 });
 
 // Schema for starting timesheet
@@ -39,9 +39,31 @@ export const SearchInputSchema = z.object({
   searchText: z.string().min(1, "Search text is required")
 });
 
+// Schema for creating new topic/responsibility
+export const CreateTopicInputSchema = z.object({
+  name: z.string().min(1, "Topic name is required"),
+  description: z.string().optional()
+});
+
+// Schema for creating new activity
+export const CreateActivityInputSchema = z.object({
+  name: z.string().min(1, "Activity name is required"),
+  responsibilityId: z.string().optional()
+});
+
+// Schema for updating activity
+export const UpdateActivityInputSchema = z.object({
+  activityId: z.string().min(1, "Activity ID is required"),
+  name: z.string().min(1, "Activity name is required").optional(),
+  responsibilityId: z.string().optional()
+});
+
 export type DateRangeInput = z.infer<typeof DateRangeInputSchema>;
 export type DatabaseMetadataInput = z.infer<typeof DatabaseMetadataInputSchema>;
 export type StartTimesheetInput = z.infer<typeof StartTimesheetInputSchema>;
 export type EndTimesheetInput = z.infer<typeof EndTimesheetInputSchema>;
 export type UpdateTimesheetMoodInput = z.infer<typeof UpdateTimesheetMoodInputSchema>;
 export type SearchInput = z.infer<typeof SearchInputSchema>;
+export type CreateTopicInput = z.infer<typeof CreateTopicInputSchema>;
+export type CreateActivityInput = z.infer<typeof CreateActivityInputSchema>;
+export type UpdateActivityInput = z.infer<typeof UpdateActivityInputSchema>;
