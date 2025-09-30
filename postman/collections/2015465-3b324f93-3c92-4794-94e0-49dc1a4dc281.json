@@ -354,7 +354,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "26c6358d-eeb5-42e4-b524-b947adfb5942",
+				"id": "4e3da68e-c22e-41da-94e3-6ba375ae3e6e",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -366,7 +366,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "3e0190c5-975e-4d95-9eb7-1f52c8498323",
+				"id": "250e834c-4100-4e92-992a-4a6c24a6667b",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -396,11 +396,6 @@
 		{
 			"key": "NOTION_TOKEN",
 			"value": ""
-		},
-		{
-			"key": "TOPICS_DB_ID",
-			"value": "",
-			"type": "default"
 		}
 	]
 }
