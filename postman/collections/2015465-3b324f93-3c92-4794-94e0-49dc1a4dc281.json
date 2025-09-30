@@ -104,6 +104,38 @@
 						"description": "Get the schema and properties of the Responsibilities database"
 					},
 					"response": []
+				},
+				{
+					"name": "Get Topics Database Schema",
+					"id": "2015465-09d3d980-5e05-40d6-ad76-828a683409ac",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{TOPICS_DB_ID}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{TOPICS_DB_ID}}"
+							]
+						},
+						"description": "Get the schema and properties of the Topics database"
+					},
+					"response": []
 				}
 			],
 			"id": "2015465-29837b72-8b92-41e6-9558-0b032313cb15"
@@ -290,6 +322,50 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create Topic/Responsibility",
+					"id": "2015465-38660199-c84d-4db6-a033-c72a75ef5355",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent\": {\n    \"database_id\": \"{{TOPICS_DB_ID}}\"\n  },\n  \"properties\": {\n    \"Name\": {\n      \"title\": [\n        {\n          \"text\": {\n            \"content\": \"New Project Management\"\n          }\n        }\n      ]\n    },\n    \"Description\": {\n      \"rich_text\": [\n        {\n          \"text\": {\n            \"content\": \"Managing and coordinating new project initiatives\"\n          }\n        }\n      ]\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/pages",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages"
+							]
+						},
+						"description": "Create a new topic/responsibility entry with name and optional description"
+					},
+					"response": []
 				}
 			],
 			"id": "2015465-04164892-762d-4a41-a740-06ad04464bdd"
@@ -390,6 +466,10 @@
 		{
 			"key": "RESPONSIBILITIES_DB_ID",
 			"value": "21e237bae7d080d9a746c3db0ec29dc1"
+		},
+		{
+			"key": "TOPICS_DB_ID",
+			"value": ""
 		},
 		{
 			"key": "NOTION_TOKEN",
