@@ -465,6 +465,7 @@ export async function getActivityDetails(activityId: string) {
       id: activityId,
       name: properties.Name?.title?.[0]?.text?.content || '',
       responsibility,
+      participation: properties.Participation?.select?.name || '',
     };
     
     // Cache the result
