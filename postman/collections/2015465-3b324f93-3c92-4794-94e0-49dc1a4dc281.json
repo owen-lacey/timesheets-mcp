@@ -340,6 +340,55 @@
 					"response": []
 				},
 				{
+					"name": "Search Responsibilities Copy",
+					"id": "2015465-6726c548-f638-48ba-8b54-2fbb8e19e31d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{NOTION_TOKEN}}"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{RESPONSIBILITIES_DB_ID}}/query",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{RESPONSIBILITIES_DB_ID}}",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Responsibility",
 					"id": "2015465-4530e1c4-b47f-4abe-89fa-cb44d3210647",
 					"protocolProfileBehavior": {
