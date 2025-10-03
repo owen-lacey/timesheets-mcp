@@ -468,6 +468,7 @@ export async function getActivityDetails(activityId: string) {
       name: properties.Name?.title?.[0]?.text?.content || '',
       responsibility,
       participation: properties.Participation?.select?.name || '',
+      description: properties.Description?.rich_text[0]?.plain_text || '',
     };
     
     // Cache the result
@@ -512,6 +513,7 @@ export async function getResponsibilityDetails(responsibilityId: string) {
     const responsibilityData = {
       id: responsibilityId,
       name: properties.Name?.title?.[0]?.text?.content || '',
+      description: properties.Description?.rich_text[0]?.plain_text || '',
     };
     
     // Cache the result
@@ -570,6 +572,7 @@ export async function getTopicDetails(topicId: string) {
     const topicData = {
       id: topicId,
       name: properties.Title?.title?.[0]?.text?.content || '',
+      description: properties.Description?.rich_text[0]?.plain_text || '',
     };
     
     // Cache the result (reusing responsibility cache for topics)
