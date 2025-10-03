@@ -193,21 +193,6 @@
 					"response": []
 				},
 				{
-					"name": "Search Timesheets",
-					"id": "2015465-b179b669-cb23-41c1-87b0-aca00fd1d4aa",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Search Topics",
 					"id": "2015465-1458da88-34ad-45e2-b7ad-24afb0dbb80a",
 					"protocolProfileBehavior": {
