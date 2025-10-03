@@ -297,10 +297,44 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{NOTION_TOKEN}}"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"filter\": {\n    \"property\": \"End\",\n    \"rich_text\": {\n      \"is_empty\": true\n    }\n  },\n  \"sorts\": [\n    {\n      \"property\": \"Date\",\n      \"direction\": \"descending\"\n    },\n    {\n      \"property\": \"Start\",\n      \"direction\": \"descending\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "https://api.notion.com/v1/databases/{{TIMESHEETS_DB_ID}}/query",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{TIMESHEETS_DB_ID}}",
+								"query"
+							]
 						}
 					},
 					"response": []
@@ -352,9 +386,33 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_NOTION_API_KEY"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"url": {
-							"raw": ""
+							"raw": "https://api.notion.com/v1/pages/226237ba-e7d0-80db-acb8-db5e337d6050",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages",
+								"226237ba-e7d0-80db-acb8-db5e337d6050"
+							]
 						}
 					},
 					"response": []
