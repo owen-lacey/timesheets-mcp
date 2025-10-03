@@ -193,6 +193,55 @@
 					"response": []
 				},
 				{
+					"name": "Active timesheets",
+					"id": "2015465-34e5ef3b-e339-4983-80f1-693bff0e95cd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{NOTION_TOKEN}}"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"filter\": {\n    \"property\": \"End\",\n    \"rich_text\": {\n      \"is_empty\": true\n    }\n  },\n  \"sorts\": [\n    {\n      \"property\": \"Date\",\n      \"direction\": \"descending\"\n    },\n    {\n      \"property\": \"Start\",\n      \"direction\": \"descending\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{TIMESHEETS_DB_ID}}/query",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{TIMESHEETS_DB_ID}}",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Search Topics",
 					"id": "2015465-1458da88-34ad-45e2-b7ad-24afb0dbb80a",
 					"protocolProfileBehavior": {
@@ -284,55 +333,6 @@
 								"v1",
 								"databases",
 								"{{RESPONSIBILITIES_DB_ID}}",
-								"query"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Active timesheets",
-					"id": "2015465-34e5ef3b-e339-4983-80f1-693bff0e95cd",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{NOTION_TOKEN}}"
-							},
-							{
-								"key": "Notion-Version",
-								"value": "2022-06-28"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"filter\": {\n    \"property\": \"End\",\n    \"rich_text\": {\n      \"is_empty\": true\n    }\n  },\n  \"sorts\": [\n    {\n      \"property\": \"Date\",\n      \"direction\": \"descending\"\n    },\n    {\n      \"property\": \"Start\",\n      \"direction\": \"descending\"\n    }\n  ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://api.notion.com/v1/databases/{{TIMESHEETS_DB_ID}}/query",
-							"protocol": "https",
-							"host": [
-								"api",
-								"notion",
-								"com"
-							],
-							"path": [
-								"v1",
-								"databases",
-								"{{TIMESHEETS_DB_ID}}",
 								"query"
 							]
 						}
