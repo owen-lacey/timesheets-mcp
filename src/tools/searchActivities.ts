@@ -29,11 +29,15 @@ export async function searchActivitiesTool(
       data.results.map((page: any) => getActivityDetails(page.id))
     );
 
+    const resultText = searchText 
+      ? `Found ${activities.length} activities matching "${searchText}" in name and description:`
+      : `Found ${activities.length} activities:`;
+
     return {
       content: [
         {
           type: "text" as const,
-          text: `Found ${activities.length} activities matching "${searchText}":\n\n${JSON.stringify(activities, null, 2)}`
+          text: `${resultText}\n\n${JSON.stringify(activities, null, 2)}`
         }
       ]
     };

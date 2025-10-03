@@ -142,9 +142,9 @@ server.registerTool('updateTimesheetMood', {
 
 // Tool 7: Search activities
 server.registerTool('searchActivities', {
-  description: "Search for activities by name",
+  description: "Search for activities by name and description. If searchText is not provided, returns all activities.",
   inputSchema: {
-    searchText: z.string().min(1, "Search text is required")
+    searchText: z.string().optional()
   }
 }, async (request: any) => {
   if (!actitiviesDatabaseId) {
@@ -162,9 +162,9 @@ server.registerTool('searchActivities', {
 
 // Tool 8: Search responsibilities
 server.registerTool('searchResponsibilities', {
-  description: "Search for responsibilities by name",
+  description: "Search for responsibilities by name and description. If searchText is not provided, returns all responsibilities.",
   inputSchema: {
-    searchText: z.string().min(1, "Search text is required")
+    searchText: z.string().optional()
   }
 }, async (request: any) => {
   if (!responsibilitiesDatabaseId) {
@@ -203,9 +203,9 @@ server.registerTool('createTopic', {
 
 // Tool 10: Search topics
 server.registerTool('searchTopics', {
-  description: "Search for topics by name",
+  description: "Search for topics by title and description. If searchText is not provided, returns all topics.",
   inputSchema: {
-    searchText: z.string().min(1, "Search text is required")
+    searchText: z.string().optional()
   }
 }, async (request: any) => {
   if (!topicsDatabaseId) {
@@ -226,6 +226,7 @@ server.registerTool('createActivity', {
   description: "Create a new activity entry",
   inputSchema: {
     name: z.string().min(1, "Activity name is required"),
+    description: z.string().optional(),
     responsibilityId: z.string().optional()
   }
 }, async (request: any) => {
@@ -248,6 +249,7 @@ server.registerTool('updateActivity', {
   inputSchema: {
     activityId: z.string().min(1, "Activity ID is required"),
     name: z.string().min(1, "Activity name is required").optional(),
+    description: z.string().optional(),
     responsibilityId: z.string().optional()
   }
 }, async (request: any) => {

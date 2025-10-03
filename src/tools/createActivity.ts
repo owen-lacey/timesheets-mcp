@@ -8,7 +8,7 @@ export async function handleCreateActivity(args: any) {
     throw new Error(`Invalid input: ${validation.error.issues.map(i => i.message).join(', ')}`);
   }
   
-  const { name, responsibilityId }: CreateActivityInput = validation.data;
+  const { name, description, responsibilityId }: CreateActivityInput = validation.data;
   
   // Get activities database ID from environment variable
   const activitiesDatabaseId = process.env.ACTIVITIES_DB_ID;
@@ -17,16 +17,17 @@ export async function handleCreateActivity(args: any) {
   }
 
   try {
-    const result = await createActivity(activitiesDatabaseId, name, responsibilityId);
+    const result = await createActivity(activitiesDatabaseId, name, description, responsibilityId);
     
     const message = `Activity "${name}" created successfully with ID: ${result.id}`;
+    const descriptionMessage = description ? `\nDescription: ${description}` : '';
     const responsibilityMessage = responsibilityId ? `\nLinked to responsibility: ${responsibilityId}` : '';
     
     return {
       content: [
         {
           type: "text" as const,
-          text: message + responsibilityMessage
+          text: message + descriptionMessage + responsibilityMessage
         }
       ]
     };

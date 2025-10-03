@@ -241,6 +241,7 @@ export async function createTopic(
 export async function createActivity(
   activitiesDatabaseId: string,
   name: string,
+  description?: string,
   responsibilityId?: string
 ) {
   const properties: any = {
@@ -254,6 +255,19 @@ export async function createActivity(
       ]
     }
   };
+
+  // Add description if provided
+  if (description) {
+    properties["Description"] = {
+      "rich_text": [
+        {
+          "text": {
+            "content": description
+          }
+        }
+      ]
+    };
+  }
 
   // Add responsibility relationship if provided
   if (responsibilityId) {
@@ -279,6 +293,7 @@ export async function createActivity(
 export async function updateActivity(
   activityId: string,
   name?: string,
+  description?: string,
   responsibilityId?: string
 ) {
   const properties: any = {};
@@ -294,6 +309,27 @@ export async function updateActivity(
         }
       ]
     };
+  }
+
+  // Update description if provided
+  if (description !== undefined) {
+    if (description === "") {
+      // Clear the description
+      properties["Description"] = {
+        "rich_text": []
+      };
+    } else {
+      // Set the description
+      properties["Description"] = {
+        "rich_text": [
+          {
+            "text": {
+              "content": description
+            }
+          }
+        ]
+      };
+    }
   }
 
   // Update responsibility relationship if provided
@@ -413,28 +449,50 @@ function cleanExpiredCache() {
 setInterval(cleanExpiredCache, 5 * 60 * 1000);
 
 // Activity and Responsibility operations
-export async function searchActivities(activitiesDatabaseId: string, searchText: string) {
+export async function searchActivities(activitiesDatabaseId: string, searchText?: string) {
   const queryBody: any = {};
   if (searchText) {
+    // Search in both Name and Description fields
     queryBody.filter = {
-      property: "Name",
-      title: {
-        contains: searchText
-      }
+      or: [
+        {
+          property: "Name",
+          title: {
+            contains: searchText
+          }
+        },
+        {
+          property: "Description",
+          rich_text: {
+            contains: searchText
+          }
+        }
+      ]
     };
   }
   
   return queryDatabase(activitiesDatabaseId, queryBody);
 }
 
-export async function searchResponsibilities(responsibilitiesDatabaseId: string, searchText: string) {
+export async function searchResponsibilities(responsibilitiesDatabaseId: string, searchText?: string) {
   const queryBody: any = {};
   if (searchText) {
+    // Search in both Name and Description fields  
     queryBody.filter = {
-      property: "Name",
-      title: {
-        contains: searchText
-      }
+      or: [
+        {
+          property: "Name",
+          title: {
+            contains: searchText
+          }
+        },
+        {
+          property: "Description",
+          rich_text: {
+            contains: searchText
+          }
+        }
+      ]
     };
   }
   
@@ -541,14 +599,25 @@ export async function getResponsibilityDetails(responsibilityId: string) {
 }
 
 // Topics-specific functions (using correct property names)
-export async function searchTopics(topicsDatabaseId: string, searchText: string) {
+export async function searchTopics(topicsDatabaseId: string, searchText?: string) {
   const queryBody: any = {};
   if (searchText) {
+    // Search in both Title and Text (description) fields
     queryBody.filter = {
-      property: "Title",
-      title: {
-        contains: searchText
-      }
+      or: [
+        {
+          property: "Title",
+          title: {
+            contains: searchText
+          }
+        },
+        {
+          property: "Text",
+          rich_text: {
+            contains: searchText
+          }
+        }
+      ]
     };
   }
   

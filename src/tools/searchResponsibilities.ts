@@ -29,11 +29,15 @@ export async function searchResponsibilitiesTool(
       data.results.map((page: any) => getResponsibilityDetails(page.id))
     );
 
+    const resultText = searchText 
+      ? `Found ${responsibilities.length} responsibilities matching "${searchText}" in name and description:`
+      : `Found ${responsibilities.length} responsibilities:`;
+
     return {
       content: [
         {
           type: "text" as const,
-          text: `Found ${responsibilities.length} responsibilities matching "${searchText}":\n\n${JSON.stringify(responsibilities, null, 2)}`
+          text: `${resultText}\n\n${JSON.stringify(responsibilities, null, 2)}`
         }
       ]
     };

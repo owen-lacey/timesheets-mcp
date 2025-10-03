@@ -8,19 +8,26 @@ export async function handleUpdateActivity(args: any) {
     throw new Error(`Invalid input: ${validation.error.issues.map(i => i.message).join(', ')}`);
   }
   
-  const { activityId, name, responsibilityId }: UpdateActivityInput = validation.data;
+  const { activityId, name, description, responsibilityId }: UpdateActivityInput = validation.data;
   
   // Check that at least one field is being updated
-  if (!name && responsibilityId === undefined) {
-    throw new Error('At least one field (name or responsibilityId) must be provided for update');
+  if (!name && description === undefined && responsibilityId === undefined) {
+    throw new Error('At least one field (name, description, or responsibilityId) must be provided for update');
   }
 
   try {
-    await updateActivity(activityId, name, responsibilityId);
+    await updateActivity(activityId, name, description, responsibilityId);
     
     const updates: string[] = [];
     if (name) {
       updates.push(`name updated to "${name}"`);
+    }
+    if (description !== undefined) {
+      if (description === "") {
+        updates.push('description removed');
+      } else {
+        updates.push(`description updated to "${description}"`);
+      }
     }
     if (responsibilityId !== undefined) {
       if (responsibilityId === "") {

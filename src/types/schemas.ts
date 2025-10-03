@@ -36,7 +36,7 @@ export const UpdateTimesheetMoodInputSchema = z.object({
 
 // Schema for search queries
 export const SearchInputSchema = z.object({
-  searchText: z.string().min(1, "Search text is required")
+  searchText: z.string().optional()
 });
 
 // Schema for creating new topic/responsibility
@@ -48,6 +48,7 @@ export const CreateTopicInputSchema = z.object({
 // Schema for creating new activity
 export const CreateActivityInputSchema = z.object({
   name: z.string().min(1, "Activity name is required"),
+  description: z.string().optional(),
   responsibilityId: z.string().optional()
 });
 
@@ -55,6 +56,7 @@ export const CreateActivityInputSchema = z.object({
 export const UpdateActivityInputSchema = z.object({
   activityId: z.string().min(1, "Activity ID is required"),
   name: z.string().min(1, "Activity name is required").optional(),
+  description: z.string().optional(),
   responsibilityId: z.string().optional()
 });
 
