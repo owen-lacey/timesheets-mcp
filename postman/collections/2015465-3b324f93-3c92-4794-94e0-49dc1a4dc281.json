@@ -189,6 +189,21 @@
 					"response": []
 				},
 				{
+					"name": "Search Topics Copy",
+					"id": "2015465-806bb57c-9c24-4608-9159-3538b84bc0b1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Active timesheets",
 					"id": "2015465-34e5ef3b-e339-4983-80f1-693bff0e95cd",
 					"protocolProfileBehavior": {
