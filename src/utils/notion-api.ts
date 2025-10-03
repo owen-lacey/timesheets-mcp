@@ -414,27 +414,29 @@ setInterval(cleanExpiredCache, 5 * 60 * 1000);
 
 // Activity and Responsibility operations
 export async function searchActivities(activitiesDatabaseId: string, searchText: string) {
-  const queryBody = {
-    filter: {
+  const queryBody: any = {};
+  if (searchText) {
+    queryBody.filter = {
       property: "Name",
       title: {
         contains: searchText
       }
-    }
-  };
+    };
+  }
   
   return queryDatabase(activitiesDatabaseId, queryBody);
 }
 
 export async function searchResponsibilities(responsibilitiesDatabaseId: string, searchText: string) {
-  const queryBody = {
-    filter: {
+  const queryBody: any = {};
+  if (searchText) {
+    queryBody.filter = {
       property: "Name",
       title: {
         contains: searchText
       }
-    }
-  };
+    };
+  }
   
   return queryDatabase(responsibilitiesDatabaseId, queryBody);
 }
@@ -538,14 +540,15 @@ export async function getResponsibilityDetails(responsibilityId: string) {
 
 // Topics-specific functions (using correct property names)
 export async function searchTopics(topicsDatabaseId: string, searchText: string) {
-  const queryBody = {
-    filter: {
+  const queryBody: any = {};
+  if (searchText) {
+    queryBody.filter = {
       property: "Title",
       title: {
         contains: searchText
       }
-    }
-  };
+    };
+  }
   
   return queryDatabase(topicsDatabaseId, queryBody);
 }
