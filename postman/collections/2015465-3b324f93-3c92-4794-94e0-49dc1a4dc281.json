@@ -371,7 +371,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://api.notion.com/v1/databases/{{RESPONSIBILITIES_DB_ID}}/query",
+							"raw": "https://api.notion.com/v1/databases/{{ACTIVITIES_DB_ID}}/query",
 							"protocol": "https",
 							"host": [
 								"api",
@@ -381,7 +381,7 @@
 							"path": [
 								"v1",
 								"databases",
-								"{{RESPONSIBILITIES_DB_ID}}",
+								"{{ACTIVITIES_DB_ID}}",
 								"query"
 							]
 						}
