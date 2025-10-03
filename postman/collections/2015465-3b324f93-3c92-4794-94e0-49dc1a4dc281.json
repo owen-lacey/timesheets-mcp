@@ -150,10 +150,44 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{NOTION_TOKEN}}"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"filter\": {\n    \"property\": \"Date\",\n    \"date\": {\n      \"equals\": \"2025-09-19\"\n    }\n  },\n  \"sorts\": [\n    {\n      \"property\": \"Start\",\n      \"direction\": \"ascending\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "https://api.notion.com/v1/databases/{{TIMESHEETS_DB_ID}}/query",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{TIMESHEETS_DB_ID}}",
+								"query"
+							]
 						}
 					},
 					"response": []
