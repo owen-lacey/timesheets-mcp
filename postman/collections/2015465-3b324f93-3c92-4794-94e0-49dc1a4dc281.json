@@ -1072,7 +1072,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "355143c1-f732-43a6-8f73-efc6137a4669",
+				"id": "7a52b29a-5372-4582-83a8-44f48e009f4f",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -1084,7 +1084,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "00c44c9a-4ce8-4950-a351-4e74873398b1",
+				"id": "71bff162-3012-409a-b586-ebdcf343ea00",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -1133,17 +1133,15 @@
 		},
 		{
 			"key": "EVIDENCE_PAGE_ID",
-			"value": ""
+			"value": "237237bae7d0805e9316e6db6959ecf9"
 		},
 		{
 			"key": "COMPETENCY_PAGE_ID",
-			"value": "",
-			"type": "default"
+			"value": "237237bae7d080d2aa78c1fda06ab088"
 		},
 		{
-			"key": "{{COMPETENCY_PAGE_ID",
-			"value": "",
-			"type": "default"
+			"key": "TOPIC_PAGE_ID",
+			"value": "21e237bae7d08075beffda27b0ee235e"
 		}
 	]
 }
