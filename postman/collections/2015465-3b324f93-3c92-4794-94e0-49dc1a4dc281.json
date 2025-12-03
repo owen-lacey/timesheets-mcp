@@ -1037,7 +1037,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "8cd426d4-f35a-496e-93ce-f08d6e5a8316",
+				"id": "355143c1-f732-43a6-8f73-efc6137a4669",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -1049,7 +1049,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "f40179d8-29d5-47a2-bd20-ad182c97a94f",
+				"id": "00c44c9a-4ce8-4950-a351-4e74873398b1",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -1098,7 +1098,17 @@
 		},
 		{
 			"key": "EVIDENCE_PAGE_ID",
-			"value": "237237bae7d0805e9316e6db6959ecf9"
+			"value": ""
+		},
+		{
+			"key": "COMPETENCY_PAGE_ID",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "{{COMPETENCY_PAGE_ID",
+			"value": "",
+			"type": "default"
 		}
 	]
 }
