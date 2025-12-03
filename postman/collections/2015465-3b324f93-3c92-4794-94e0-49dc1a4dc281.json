@@ -849,8 +849,43 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{NOTION_SECRET}}"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"parent\": {\n      \"database_id\": \"237237ba-e7d0-80b0-916c-cebdd5a54edf\"\n    },\n    \"properties\": {\n      \"Summary\": {\n        \"title\": [\n          {\n            \"text\": {\n              \"content\": \"Collaborated on Q3 Project Launch\"\n            }\n          }\n        ]\n      },\n      \"Date\": {\n        \"date\": {\n          \"start\": \"2025-11-20\"\n        }\n      },\n      \"What happened\": {\n        \"rich_text\": [\n          {\n            \"text\": {\n              \"content\": \"Successfully completed all assigned tasks for the Q3 project launch, focusing on risk mitigation.\"\n            }\n          }\n        ]\n      },\n      \"Competencies\": {\n        \"relation\": [\n          {\n            \"id\": \"{{COMPETENCY_PAGE_ID}}\"\n          }\n        ]\n      },\n      \"Topics\": {\n        \"relation\": [\n          {\n            \"id\": \"{{TOPIC_PAGE_ID}}\"\n          }\n        ]\n      }\n    }\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/pages",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages"
+							]
+						}
 					},
 					"response": []
 				},
