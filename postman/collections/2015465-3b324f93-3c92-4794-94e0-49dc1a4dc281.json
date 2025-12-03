@@ -152,7 +152,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://api.notion.com/v1/databases/{{TOPICS_DB_ID}}",
+							"raw": "https://api.notion.com/v1/databases/{{EVIDENCE_DB_ID}}",
 							"protocol": "https",
 							"host": [
 								"api",
@@ -162,7 +162,7 @@
 							"path": [
 								"v1",
 								"databases",
-								"{{TOPICS_DB_ID}}"
+								"{{EVIDENCE_DB_ID}}"
 							]
 						},
 						"description": "Get the schema and properties of the Topics database"
@@ -184,7 +184,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://api.notion.com/v1/databases/{{TOPICS_DB_ID}}",
+							"raw": "https://api.notion.com/v1/databases/{{COMPETENCIES_DB_ID}}",
 							"protocol": "https",
 							"host": [
 								"api",
@@ -194,7 +194,7 @@
 							"path": [
 								"v1",
 								"databases",
-								"{{TOPICS_DB_ID}}"
+								"{{COMPETENCIES_DB_ID}}"
 							]
 						},
 						"description": "Get the schema and properties of the Topics database"
@@ -514,19 +514,15 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer YOUR_NOTION_API_KEY"
+								"value": "Bearer {{NOTION_SECRET}}"
 							},
 							{
 								"key": "Notion-Version",
 								"value": "2022-06-28"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
 							}
 						],
 						"url": {
-							"raw": "https://api.notion.com/v1/pages/21e237ba-e7d0-8022-8003-d8d8c7a53f49",
+							"raw": "https://api.notion.com/v1/pages/237237bae7d080d2aa78c1fda06ab088",
 							"protocol": "https",
 							"host": [
 								"api",
@@ -536,7 +532,7 @@
 							"path": [
 								"v1",
 								"pages",
-								"21e237ba-e7d0-8022-8003-d8d8c7a53f49"
+								"237237bae7d080d2aa78c1fda06ab088"
 							]
 						}
 					},
@@ -565,7 +561,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://api.notion.com/v1/pages/21e237ba-e7d0-8022-8003-d8d8c7a53f49",
+							"raw": "https://api.notion.com/v1/pages/237237bae7d0805e9316e6db6959ecf9",
 							"protocol": "https",
 							"host": [
 								"api",
@@ -575,7 +571,7 @@
 							"path": [
 								"v1",
 								"pages",
-								"21e237ba-e7d0-8022-8003-d8d8c7a53f49"
+								"237237bae7d0805e9316e6db6959ecf9"
 							]
 						}
 					},
