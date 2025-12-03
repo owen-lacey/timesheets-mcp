@@ -138,7 +138,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Topics Database Schema Copy",
+					"name": "Get Evidence Database Schema",
 					"id": "2015465-2e36a3ed-1002-4374-b9f1-152a81cc2177",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
