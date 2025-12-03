@@ -459,8 +459,45 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{NOTION_SECRET}}"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filter\": {\n      \"or\": [\n        {\n          \"property\": \"Name\",\n          \"rich_text\": {\n            \"contains\": \"ai\"\n          }\n        },\n        {\n          \"property\": \"PE Content\",\n          \"rich_text\": {\n            \"contains\": \"ai\"\n          }\n        }\n      ]\n    }\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{COMPETENCIES_DB_ID}}/query",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{COMPETENCIES_DB_ID}}",
+								"query"
+							]
+						}
 					},
 					"response": []
 				},
@@ -1000,7 +1037,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "69e5ab21-7bdd-4a3d-9499-8eaf6208e460",
+				"id": "8cd426d4-f35a-496e-93ce-f08d6e5a8316",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -1012,7 +1049,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "51cb2ab8-5888-4c5e-a6a8-9ea4f6b49516",
+				"id": "f40179d8-29d5-47a2-bd20-ad182c97a94f",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -1058,6 +1095,10 @@
 		{
 			"key": "COMPETENCIES_DB_ID",
 			"value": "237237bae7d08097a202d499ed05aab4"
+		},
+		{
+			"key": "EVIDENCE_PAGE_ID",
+			"value": "237237bae7d0805e9316e6db6959ecf9"
 		}
 	]
 }
