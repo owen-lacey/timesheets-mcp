@@ -755,7 +755,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "82607d16-4fa1-49e2-beec-96808d4eb0f6",
+				"id": "69e5ab21-7bdd-4a3d-9499-8eaf6208e460",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -767,7 +767,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "397d8a08-16f1-4f00-9b7f-463406cbb07c",
+				"id": "51cb2ab8-5888-4c5e-a6a8-9ea4f6b49516",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -808,11 +808,11 @@
 		},
 		{
 			"key": "EVIDENCE_DB_ID",
-			"value": ""
+			"value": "237237bae7d080b0916ccebdd5a54edf"
 		},
 		{
 			"key": "COMPETENCIES_DB_ID",
-			"value": ""
+			"value": "237237bae7d08097a202d499ed05aab4"
 		}
 	]
 }
