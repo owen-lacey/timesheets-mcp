@@ -136,6 +136,70 @@
 						"description": "Get the schema and properties of the Topics database"
 					},
 					"response": []
+				},
+				{
+					"name": "Get Topics Database Schema Copy",
+					"id": "2015465-2e36a3ed-1002-4374-b9f1-152a81cc2177",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{TOPICS_DB_ID}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{TOPICS_DB_ID}}"
+							]
+						},
+						"description": "Get the schema and properties of the Topics database"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Topics Database Schema Copy",
+					"id": "2015465-d217d05e-d473-432c-8c91-4402991d4d35",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Notion-Version",
+								"value": "{{NOTION_VERSION}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{TOPICS_DB_ID}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{TOPICS_DB_ID}}"
+							]
+						},
+						"description": "Get the schema and properties of the Topics database"
+					},
+					"response": []
 				}
 			],
 			"id": "2015465-29837b72-8b92-41e6-9558-0b032313cb15"
