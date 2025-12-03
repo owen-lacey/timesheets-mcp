@@ -843,8 +843,20 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Create Evidence",
 					"id": "2015465-746ab355-6694-4e92-9d95-9d584c0fba4e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "2015465-e018958f-19f3-4fdf-955c-cdec02e1f743",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
