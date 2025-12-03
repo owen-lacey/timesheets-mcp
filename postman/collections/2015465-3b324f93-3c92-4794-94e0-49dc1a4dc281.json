@@ -576,6 +576,41 @@
 					"response": []
 				},
 				{
+					"name": "Competency Copy",
+					"id": "2015465-7c5d2240-a0ca-4b76-86d2-8d5ec7ecc104",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{NOTION_SECRET}}"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							}
+						],
+						"url": {
+							"raw": "https://api.notion.com/v1/pages/237237bae7d080d2aa78c1fda06ab088",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"pages",
+								"237237bae7d080d2aa78c1fda06ab088"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Evidence",
 					"id": "2015465-f827f2c0-39af-4327-a37d-e62fd6729c98",
 					"protocolProfileBehavior": {
