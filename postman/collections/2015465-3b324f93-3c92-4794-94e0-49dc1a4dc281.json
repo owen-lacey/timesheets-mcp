@@ -170,7 +170,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Topics Database Schema Copy",
+					"name": "Get Competencies Database Schema",
 					"id": "2015465-d217d05e-d473-432c-8c91-4402991d4d35",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
