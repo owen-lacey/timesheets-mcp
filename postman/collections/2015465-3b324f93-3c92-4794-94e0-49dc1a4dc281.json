@@ -531,7 +531,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Search Competencies",
 					"id": "2015465-237c73f1-fc40-445c-bc34-cdd53e73c316",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
