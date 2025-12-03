@@ -985,7 +985,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"properties\": {\n      \"Summary\": {\n        \"title\": [\n          {\n            \"text\": {\n              \"content\": \"Collaborated on Q3 Project Launch (UPDATED SUMMARY)\"\n            }\n          }\n        ]\n      },\n      \"Competencies\": {\n        \"relation\": [\n          {\n            \"id\": \"{{EXISTING_COMPETENCY_ID}}\"\n          },\n          {\n            \"id\": \"{{NEW_COMPETENCY_ID_TO_ADD}}\"\n          }\n        ]\n      }\n    }\n  }",
+							"raw": "{\n    \"properties\": {\n      \"Summary\": {\n        \"title\": [\n          {\n            \"text\": {\n              \"content\": \"Collaborated on Q3 Project Launch (UPDATED SUMMARY)\"\n            }\n          }\n        ]\n      },\n      \"Competencies\": {\n        \"relation\": [\n          {\n            \"id\": \"{{COMPETENCY_PAGE_ID}}\"\n          },\n          {\n            \"id\": \"237237bae7d0806f8d67cc812440fd15\"\n          }\n        ]\n      }\n    }\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
