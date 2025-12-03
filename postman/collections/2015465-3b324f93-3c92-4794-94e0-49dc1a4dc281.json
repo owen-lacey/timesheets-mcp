@@ -841,6 +841,18 @@
 						"description": "Update an existing activity entry with new name and/or responsibility link"
 					},
 					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "2015465-746ab355-6694-4e92-9d95-9d584c0fba4e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "2015465-04164892-762d-4a41-a740-06ad04464bdd"
