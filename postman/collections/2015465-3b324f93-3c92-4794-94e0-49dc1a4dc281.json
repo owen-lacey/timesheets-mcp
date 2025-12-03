@@ -453,6 +453,18 @@
 					"response": []
 				},
 				{
+					"name": "Search Competencies",
+					"id": "2015465-237c73f1-fc40-445c-bc34-cdd53e73c316",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
 					"name": "Responsibility",
 					"id": "2015465-4530e1c4-b47f-4abe-89fa-cb44d3210647",
 					"protocolProfileBehavior": {
@@ -527,18 +539,6 @@
 								"226237ba-e7d0-80db-acb8-db5e337d6050"
 							]
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Competencies",
-					"id": "2015465-237c73f1-fc40-445c-bc34-cdd53e73c316",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": []
 					},
 					"response": []
 				}
