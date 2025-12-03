@@ -755,7 +755,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "4e3da68e-c22e-41da-94e3-6ba375ae3e6e",
+				"id": "5f1d1d70-3382-407a-8870-6488ab8795e8",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -767,7 +767,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "250e834c-4100-4e92-992a-4a6c24a6667b",
+				"id": "4e32bec4-5b84-4762-bdb2-e05373f91ded",
 				"type": "text/javascript",
 				"packages": {},
 				"requests": {},
@@ -805,6 +805,16 @@
 		{
 			"key": "NOTION_TOKEN",
 			"value": ""
+		},
+		{
+			"key": "RESPONSIBILITIES_DB_ID",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "RESPONSIBILITIES_DB_ID",
+			"value": "",
+			"type": "default"
 		}
 	]
 }
