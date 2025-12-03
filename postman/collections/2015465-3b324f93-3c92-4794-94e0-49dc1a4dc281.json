@@ -476,7 +476,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"filter\": {\n      \"or\": [\n        {\n          \"property\": \"Name\",\n          \"rich_text\": {\n            \"contains\": \"ai\"\n          }\n        },\n        {\n          \"property\": \"PE Content\",\n          \"rich_text\": {\n            \"contains\": \"ai\"\n          }\n        }\n      ]\n    }\n  }",
+							"raw": "{\n    \"filter\": {\n      \"or\": [\n        {\n          \"property\": \"Name\",\n          \"rich_text\": {\n            \"contains\": \"primary\"\n          }\n        },\n        {\n          \"property\": \"PE Content\",\n          \"rich_text\": {\n            \"contains\": \"primary\"\n          }\n        }\n      ]\n    }\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
