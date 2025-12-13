@@ -476,7 +476,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"filter\": {\n      \"or\": [\n        {\n          \"property\": \"Name\",\n          \"rich_text\": {\n            \"contains\": \"ai\"\n          }\n        },\n        {\n          \"property\": \"PE Content\",\n          \"rich_text\": {\n            \"contains\": \"ai\"\n          }\n        }\n      ]\n    }\n  }",
+							"raw": "{\n    \"filter\": {\n      \"or\": [\n        {\n          \"property\": \"Name\",\n          \"rich_text\": {\n            \"contains\": \"primary\"\n          }\n        },\n        {\n          \"property\": \"PE Content\",\n          \"rich_text\": {\n            \"contains\": \"primary\"\n          }\n        }\n      ]\n    }\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -985,7 +985,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"properties\": {\n      \"Summary\": {\n        \"title\": [\n          {\n            \"text\": {\n              \"content\": \"Collaborated on Q3 Project Launch (UPDATED SUMMARY)\"\n            }\n          }\n        ]\n      },\n      \"Competencies\": {\n        \"relation\": [\n          {\n            \"id\": \"{{EXISTING_COMPETENCY_ID}}\"\n          },\n          {\n            \"id\": \"{{NEW_COMPETENCY_ID_TO_ADD}}\"\n          }\n        ]\n      }\n    }\n  }",
+							"raw": "{\n    \"properties\": {\n      \"Summary\": {\n        \"title\": [\n          {\n            \"text\": {\n              \"content\": \"Collaborated on Q3 Project Launch (UPDATED SUMMARY)\"\n            }\n          }\n        ]\n      },\n      \"Competencies\": {\n        \"relation\": [\n          {\n            \"id\": \"{{COMPETENCY_PAGE_ID}}\"\n          },\n          {\n            \"id\": \"237237bae7d0806f8d67cc812440fd15\"\n          }\n        ]\n      }\n    }\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
