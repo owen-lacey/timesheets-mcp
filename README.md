@@ -26,6 +26,8 @@ A Model Context Protocol (MCP) server that provides a comprehensive interface to
    ACTIVITIES_DB_ID=your_activities_database_id_optional
    RESPONSIBILITIES_DB_ID=your_responsibilities_database_id_optional
    TOPICS_DB_ID=your_topics_database_id_optional
+   COMPETENCIES_DB_ID=your_competencies_database_id_optional
+   EVIDENCE_DB_ID=your_evidence_database_id_optional
    ```
 
 3. **Build the project**
@@ -61,6 +63,11 @@ A Model Context Protocol (MCP) server that provides a comprehensive interface to
 - `updateActivity` - Update an existing activity entry
 - `getDatabaseMetadata` - Get schema information for databases
 
+### Competencies & Evidence
+- `searchCompetencies` - Search competencies by name and PE Content with evidence counts
+- `addEvidence` - Create a new evidence entry with competencies and topics
+- `updateEvidence` - Update existing evidence (appends relations)
+
 ## Project Structure
 
 ```
@@ -79,6 +86,9 @@ timesheets-mcp/
 │   │   ├── createTopic.ts
 │   │   ├── createActivity.ts
 │   │   ├── updateActivity.ts
+│   │   ├── searchCompetencies.ts
+│   │   ├── addEvidence.ts
+│   │   ├── updateEvidence.ts
 │   │   └── getDatabaseMetadata.ts
 │   ├── types/
 │   │   ├── schemas.ts         # Zod input/output validation schemas
@@ -96,7 +106,7 @@ timesheets-mcp/
 
 ## Database Schema
 
-This server works with three interconnected Notion databases:
+This server works with five interconnected Notion databases:
 
 ### Timesheets Database (Required)
 - `Desc` (title): Description of work performed
@@ -104,16 +114,34 @@ This server works with three interconnected Notion databases:
 - `Start` (rich_text): Start time in HH:MM format
 - `End` (rich_text): End time in HH:MM format  
 - `Activities` (relation): Links to Activities database
-- `Topics` (relation): Links to Responsibilities database
+- `Topics` (relation): Links to Topics/Responsibilities database
 - `""` (select): Mood emoji (property name is empty string)
 
 ### Activities Database (Optional)
-- Activities that can be associated with timesheet entries
-- Linked to responsibilities
+- `Name` (title): Activity name
+- `Description` (rich_text): Activity description
+- `Responsibilities` (relation): Links to Responsibilities database
 
 ### Responsibilities Database (Optional)  
-- High-level responsibility categories
-- Can be associated with timesheet entries as "topics"
+- `Title` (title): Responsibility name
+- `Description` (rich_text): Responsibility description
+
+### Topics Database (Optional)
+- `Title` (title): Topic name
+- `Text` (rich_text): Topic description
+- Can be associated with timesheet entries and evidence
+
+### Competencies Database (Optional)
+- `Name` (rich_text): Competency name
+- `PE Content` (rich_text): Professional Experience content description
+- `Evidence` (relation): Links to Evidence database (used for counting)
+
+### Evidence Database (Optional)
+- `Summary` (title): Title/summary of the evidence entry
+- `Date` (date): When the evidence occurred
+- `What happened` (rich_text): Detailed description of the evidence
+- `Competencies` (relation): Links to one or more competencies
+- `Topics` (relation): Links to one or more topics
 
 ## Adding New Tools
 
@@ -239,6 +267,9 @@ Add any new Notion-specific types to `src/types/notion.ts`.
 ### Optional Environment Variables  
 - `ACTIVITIES_DB_ID`: ID of your activities database
 - `RESPONSIBILITIES_DB_ID`: ID of your responsibilities database
+- `TOPICS_DB_ID`: ID of your topics database
+- `COMPETENCIES_DB_ID`: ID of your competencies database
+- `EVIDENCE_DB_ID`: ID of your evidence database
 - `TOPICS_DB_ID`: ID of your topics database
 
 ### MCP Client Integration

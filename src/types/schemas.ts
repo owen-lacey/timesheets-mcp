@@ -60,6 +60,30 @@ export const UpdateActivityInputSchema = z.object({
   responsibilityId: z.string().optional()
 });
 
+// Schema for searching competencies
+export const SearchCompetenciesInputSchema = z.object({
+  searchText: z.string().optional()
+});
+
+// Schema for creating evidence
+export const CreateEvidenceInputSchema = z.object({
+  summary: z.string().min(1, "Summary is required"),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format"),
+  whatHappened: z.string().min(1, "What happened description is required"),
+  competencyIds: z.array(z.string()).optional(),
+  topicIds: z.array(z.string()).optional()
+});
+
+// Schema for updating evidence
+export const UpdateEvidenceInputSchema = z.object({
+  evidenceId: z.string().min(1, "Evidence ID is required"),
+  summary: z.string().optional(),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format").optional(),
+  whatHappened: z.string().optional(),
+  competencyIds: z.array(z.string()).optional(),
+  topicIds: z.array(z.string()).optional()
+});
+
 export type DateRangeInput = z.infer<typeof DateRangeInputSchema>;
 export type DatabaseMetadataInput = z.infer<typeof DatabaseMetadataInputSchema>;
 export type StartTimesheetInput = z.infer<typeof StartTimesheetInputSchema>;
@@ -69,3 +93,6 @@ export type SearchInput = z.infer<typeof SearchInputSchema>;
 export type CreateTopicInput = z.infer<typeof CreateTopicInputSchema>;
 export type CreateActivityInput = z.infer<typeof CreateActivityInputSchema>;
 export type UpdateActivityInput = z.infer<typeof UpdateActivityInputSchema>;
+export type SearchCompetenciesInput = z.infer<typeof SearchCompetenciesInputSchema>;
+export type CreateEvidenceInput = z.infer<typeof CreateEvidenceInputSchema>;
+export type UpdateEvidenceInput = z.infer<typeof UpdateEvidenceInputSchema>;

@@ -30,6 +30,9 @@ import { createTopicTool } from './tools/createTopic.js';
 import { searchTopicsTool } from './tools/searchTopics.js';
 import { handleCreateActivity } from './tools/createActivity.js';
 import { handleUpdateActivity } from './tools/updateActivity.js';
+import { searchCompetenciesTool } from './tools/searchCompetencies.js';
+import { addEvidenceTool } from './tools/addEvidence.js';
+import { updateEvidenceTool } from './tools/updateEvidence.js';
 
 // We don't need to import the schemas since we're defining them inline
 
@@ -56,6 +59,16 @@ if (responsibilitiesDatabaseId !== undefined && (typeof responsibilitiesDatabase
 const topicsDatabaseId = process.env.TOPICS_DB_ID;
 if (topicsDatabaseId !== undefined && (typeof topicsDatabaseId !== "string" || topicsDatabaseId.trim() === "")) {
   throw new Error('TOPICS_DB_ID is set but empty in environment variables.');
+}
+
+const competenciesDatabaseId = process.env.COMPETENCIES_DB_ID;
+if (competenciesDatabaseId !== undefined && (typeof competenciesDatabaseId !== "string" || competenciesDatabaseId.trim() === "")) {
+  throw new Error('COMPETENCIES_DB_ID is set but empty in environment variables.');
+}
+
+const evidenceDatabaseId = process.env.EVIDENCE_DB_ID;
+if (evidenceDatabaseId !== undefined && (typeof evidenceDatabaseId !== "string" || evidenceDatabaseId.trim() === "")) {
+  throw new Error('EVIDENCE_DB_ID is set but empty in environment variables.');
 }
 
 // MCP server setup
@@ -264,6 +277,65 @@ server.registerTool('updateActivity', {
     };
   }
   return await handleUpdateActivity(request);
+});
+
+// Tool 13: Search competencies
+server.registerTool('searchCompetencies', {
+  description: "Search for competencies by name and PE Content. Returns competencies with their evidence count. If searchText is not provided, returns all competencies.",
+  inputSchema: {
+    searchText: z.string().optional()
+  }
+}, async (request: any) => {
+  if (!competenciesDatabaseId) {
+    return {
+      content: [
+        {
+          type: "text" as const,
+          text: "Competencies database ID not configured (COMPETENCIES_DB_ID)"
+        }
+      ]
+    };
+  }
+  return await searchCompetenciesTool(competenciesDatabaseId, request);
+});
+
+// Tool 14: Add evidence
+server.registerTool('addEvidence', {
+  description: "Create a new evidence entry with summary, date, description, and optional links to competencies and topics.",
+  inputSchema: {
+    summary: z.string().min(1, "Summary is required"),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format"),
+    whatHappened: z.string().min(1, "What happened description is required"),
+    competencyIds: z.array(z.string()).optional(),
+    topicIds: z.array(z.string()).optional()
+  }
+}, async (request: any) => {
+  if (!evidenceDatabaseId) {
+    return {
+      content: [
+        {
+          type: "text" as const,
+          text: "Evidence database ID not configured (EVIDENCE_DB_ID)"
+        }
+      ]
+    };
+  }
+  return await addEvidenceTool(evidenceDatabaseId, request);
+});
+
+// Tool 15: Update evidence
+server.registerTool('updateEvidence', {
+  description: "Update an existing evidence entry. Can modify summary, date, description, and linked competencies/topics. Relations are appended, not replaced.",
+  inputSchema: {
+    evidenceId: z.string().min(1, "Evidence ID is required"),
+    summary: z.string().optional(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format").optional(),
+    whatHappened: z.string().optional(),
+    competencyIds: z.array(z.string()).optional(),
+    topicIds: z.array(z.string()).optional()
+  }
+}, async (request: any) => {
+  return await updateEvidenceTool(request);
 });
 
 // Start receiving messages on stdin and sending messages on stdout

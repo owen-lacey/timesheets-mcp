@@ -667,3 +667,242 @@ export async function getTopicDetails(topicId: string) {
     return fallbackData;
   }
 }
+
+// ========== COMPETENCIES FUNCTIONS ==========
+
+/**
+ * Search competencies by name and PE Content
+ * @param competenciesDatabaseId - The Notion database ID for competencies
+ * @param searchText - Optional search text to filter by name or PE Content
+ * @returns Query results from Notion API
+ */
+export async function searchCompetencies(competenciesDatabaseId: string, searchText?: string) {
+  const queryBody: any = {};
+  
+  if (searchText) {
+    queryBody.filter = {
+      or: [
+        {
+          property: "Name",
+          rich_text: {
+            contains: searchText
+          }
+        },
+        {
+          property: "PE Content",
+          rich_text: {
+            contains: searchText
+          }
+        }
+      ]
+    };
+  }
+  
+  return queryDatabase(competenciesDatabaseId, queryBody);
+}
+
+/**
+ * Get competency details including evidence count
+ * @param competencyId - The page ID of the competency
+ * @returns Competency data with evidence count
+ */
+export async function getCompetencyDetails(competencyId: string) {
+  try {
+    const response = await notionRequest(`https://api.notion.com/v1/pages/${competencyId}`);
+    const properties = response.properties;
+    
+    // Get evidence relation array to calculate count
+    const evidenceRelation = properties.Evidence?.relation || [];
+    const evidenceCount = evidenceRelation.length;
+    
+    // Calculate last quarter count (last 90 days)
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    
+    // Note: To get accurate last quarter count, we'd need to query each evidence entry's date
+    // For now, we'll return the total count and note that quarter count requires additional queries
+    
+    return {
+      id: competencyId,
+      name: properties.Name?.rich_text?.[0]?.plain_text || '',
+      peContent: properties["PE Content"]?.rich_text?.[0]?.plain_text || '',
+      evidenceCountTotal: evidenceCount,
+      // evidenceCountLastQuarter would require querying each evidence entry
+      evidenceCountLastQuarter: null // Can be implemented with additional queries if needed
+    };
+  } catch (error) {
+    console.error(`Error fetching competency ${competencyId}:`, error);
+    return {
+      id: competencyId,
+      name: `Unknown Competency (${competencyId})`,
+      peContent: '',
+      evidenceCountTotal: 0,
+      evidenceCountLastQuarter: null
+    };
+  }
+}
+
+// ========== EVIDENCE FUNCTIONS ==========
+
+/**
+ * Create a new evidence entry
+ * @param evidenceDatabaseId - The Notion database ID for evidence
+ * @param summary - Title/summary of the evidence
+ * @param date - Date in YYYY-MM-DD format
+ * @param whatHappened - Description of what happened
+ * @param competencyIds - Optional array of competency page IDs to link
+ * @param topicIds - Optional array of topic page IDs to link
+ * @returns Created page response from Notion API
+ */
+export async function createEvidence(
+  evidenceDatabaseId: string,
+  summary: string,
+  date: string,
+  whatHappened: string,
+  competencyIds?: string[],
+  topicIds?: string[]
+) {
+  const properties: any = {
+    "Summary": {
+      "title": [
+        {
+          "text": {
+            "content": summary
+          }
+        }
+      ]
+    },
+    "Date": {
+      "date": {
+        "start": date
+      }
+    },
+    "What happened": {
+      "rich_text": [
+        {
+          "text": {
+            "content": whatHappened
+          }
+        }
+      ]
+    }
+  };
+
+  if (competencyIds && competencyIds.length > 0) {
+    properties["Competencies"] = {
+      "relation": competencyIds.map(id => ({ "id": id }))
+    };
+  }
+
+  if (topicIds && topicIds.length > 0) {
+    properties["Topics"] = {
+      "relation": topicIds.map(id => ({ "id": id }))
+    };
+  }
+
+  const pageData = {
+    parent: { database_id: evidenceDatabaseId },
+    properties
+  };
+
+  return createPage(pageData);
+}
+
+/**
+ * Update an existing evidence entry (append mode for relations)
+ * @param evidenceId - The page ID of the evidence to update
+ * @param summary - Optional new summary
+ * @param date - Optional new date in YYYY-MM-DD format
+ * @param whatHappened - Optional new description
+ * @param competencyIds - Optional array of competency IDs to ADD (not replace)
+ * @param topicIds - Optional array of topic IDs to ADD (not replace)
+ * @returns Updated page response from Notion API
+ */
+export async function updateEvidence(
+  evidenceId: string,
+  summary?: string,
+  date?: string,
+  whatHappened?: string,
+  competencyIds?: string[],
+  topicIds?: string[]
+) {
+  const properties: any = {};
+
+  // Update text properties
+  if (summary !== undefined) {
+    properties["Summary"] = {
+      "title": [
+        {
+          "text": {
+            "content": summary
+          }
+        }
+      ]
+    };
+  }
+
+  if (date !== undefined) {
+    properties["Date"] = {
+      "date": {
+        "start": date
+      }
+    };
+  }
+
+  if (whatHappened !== undefined) {
+    properties["What happened"] = {
+      "rich_text": [
+        {
+          "text": {
+            "content": whatHappened
+          }
+        }
+      ]
+    };
+  }
+
+  // For relations, we need to APPEND rather than replace
+  // First fetch existing relations, then merge with new ones
+  if (competencyIds && competencyIds.length > 0) {
+    try {
+      const existingPage = await notionRequest(`https://api.notion.com/v1/pages/${evidenceId}`);
+      const existingCompetencies = existingPage.properties.Competencies?.relation || [];
+      const existingIds = existingCompetencies.map((rel: any) => rel.id);
+      
+      // Merge existing and new IDs (deduplicate)
+      const allCompetencyIds = [...new Set([...existingIds, ...competencyIds])];
+      
+      properties["Competencies"] = {
+        "relation": allCompetencyIds.map(id => ({ "id": id }))
+      };
+    } catch (error) {
+      console.error('Error fetching existing competencies, using only new IDs:', error);
+      properties["Competencies"] = {
+        "relation": competencyIds.map(id => ({ "id": id }))
+      };
+    }
+  }
+
+  if (topicIds && topicIds.length > 0) {
+    try {
+      const existingPage = await notionRequest(`https://api.notion.com/v1/pages/${evidenceId}`);
+      const existingTopics = existingPage.properties.Topics?.relation || [];
+      const existingIds = existingTopics.map((rel: any) => rel.id);
+      
+      // Merge existing and new IDs (deduplicate)
+      const allTopicIds = [...new Set([...existingIds, ...topicIds])];
+      
+      properties["Topics"] = {
+        "relation": allTopicIds.map(id => ({ "id": id }))
+      };
+    } catch (error) {
+      console.error('Error fetching existing topics, using only new IDs:', error);
+      properties["Topics"] = {
+        "relation": topicIds.map(id => ({ "id": id }))
+      };
+    }
+  }
+
+  const updateData = { properties };
+  return updatePage(evidenceId, updateData);
+}
