@@ -1,6 +1,6 @@
 # Timesheets MCP Server
 
-A Model Context Protocol (MCP) server that provides a comprehensive interface to manage timesheets using Notion databases. This server offers tools for querying, creating, and updating timesheet entries, activities, and responsibilities.
+A Model Context Protocol (MCP) server that provides a comprehensive interface to manage timesheets using Notion databases. This server offers tools for querying, creating, and updating timesheet entries, activities, responsibilities, competencies, and evidence.
 
 ## Features
 
@@ -106,7 +106,7 @@ timesheets-mcp/
 
 ## Database Schema
 
-This server works with five interconnected Notion databases:
+This server works with six interconnected Notion databases:
 
 ### Timesheets Database (Required)
 - `Desc` (title): Description of work performed
@@ -264,13 +264,12 @@ Add any new Notion-specific types to `src/types/notion.ts`.
 - `NOTION_API_KEY`: Your Notion integration API key
 - `TIMESHEETS_DB_ID`: ID of your timesheets Notion database
 
-### Optional Environment Variables  
+### Optional Environment Variables
 - `ACTIVITIES_DB_ID`: ID of your activities database
 - `RESPONSIBILITIES_DB_ID`: ID of your responsibilities database
 - `TOPICS_DB_ID`: ID of your topics database
 - `COMPETENCIES_DB_ID`: ID of your competencies database
 - `EVIDENCE_DB_ID`: ID of your evidence database
-- `TOPICS_DB_ID`: ID of your topics database
 
 ### MCP Client Integration
 Add this server to your MCP client configuration (e.g., Claude Desktop):
