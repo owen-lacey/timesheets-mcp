@@ -21,7 +21,16 @@ async function notionRequest(url: string, options: RequestInit = {}) {
   });
 
   if (!response.ok) {
-    throw new Error(`Notion API error: ${response.status} ${response.statusText}`);
+    let errorMessage = `${response.status} ${response.statusText}`;
+    try {
+      const errorBody = await response.json();
+      if (errorBody.message) {
+        errorMessage += `: ${errorBody.message}`;
+      }
+    } catch {
+      // If we can't parse the error body, use the status text
+    }
+    throw new Error(`Notion API error: ${errorMessage}`);
   }
 
   return response.json();
@@ -602,7 +611,7 @@ export async function getResponsibilityDetails(responsibilityId: string) {
 export async function searchTopics(topicsDatabaseId: string, searchText?: string) {
   const queryBody: any = {};
   if (searchText) {
-    // Search in both Title and Text (description) fields
+    // Search in both Title and Description fields
     queryBody.filter = {
       or: [
         {
@@ -612,7 +621,7 @@ export async function searchTopics(topicsDatabaseId: string, searchText?: string
           }
         },
         {
-          property: "Text",
+          property: "Description",
           rich_text: {
             contains: searchText
           }
