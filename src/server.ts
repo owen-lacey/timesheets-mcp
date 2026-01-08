@@ -33,6 +33,8 @@ import { handleUpdateActivity } from './tools/updateActivity.js';
 import { searchCompetenciesTool } from './tools/searchCompetencies.js';
 import { addEvidenceTool } from './tools/addEvidence.js';
 import { updateEvidenceTool } from './tools/updateEvidence.js';
+import { searchEvidenceTool } from './tools/searchEvidence.js';
+import { getEvidenceTool } from './tools/getEvidence.js';
 
 // We don't need to import the schemas since we're defining them inline
 
@@ -336,6 +338,38 @@ server.registerTool('updateEvidence', {
   }
 }, async (request: any) => {
   return await updateEvidenceTool(request);
+});
+
+// Tool 16: Search evidence
+server.registerTool('searchEvidence', {
+  description: "Search for evidence entries. Can filter by text (searches Summary and What Happened fields), by competency ID to see evidence linked to a specific competency, and/or by fromDate to see evidence on or after a specific date.",
+  inputSchema: {
+    searchText: z.string().optional(),
+    competencyId: z.string().optional(),
+    fromDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format").optional()
+  }
+}, async (request: any) => {
+  if (!evidenceDatabaseId) {
+    return {
+      content: [
+        {
+          type: "text" as const,
+          text: "Evidence database ID not configured (EVIDENCE_DB_ID)"
+        }
+      ]
+    };
+  }
+  return await searchEvidenceTool(evidenceDatabaseId, request);
+});
+
+// Tool 17: Get evidence
+server.registerTool('getEvidence', {
+  description: "Get detailed information about a specific evidence entry by its ID.",
+  inputSchema: {
+    evidenceId: z.string().min(1, "Evidence ID is required")
+  }
+}, async (request: any) => {
+  return await getEvidenceTool(request);
 });
 
 // Start receiving messages on stdin and sending messages on stdout

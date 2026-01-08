@@ -915,3 +915,117 @@ export async function updateEvidence(
   const updateData = { properties };
   return updatePage(evidenceId, updateData);
 }
+
+/**
+ * Search for evidence entries
+ * @param evidenceDatabaseId - The Notion database ID for evidence
+ * @param searchText - Optional text to search in Summary and What Happened fields
+ * @param competencyId - Optional competency ID to filter evidence by
+ * @param fromDate - Optional date in YYYY-MM-DD format to filter evidence on or after this date
+ * @returns Query results from Notion API
+ */
+export async function searchEvidence(
+  evidenceDatabaseId: string,
+  searchText?: string,
+  competencyId?: string,
+  fromDate?: string
+) {
+  const filters: any[] = [];
+
+  if (searchText) {
+    filters.push({
+      or: [
+        {
+          property: "Summary",
+          title: {
+            contains: searchText
+          }
+        },
+        {
+          property: "What happened",
+          rich_text: {
+            contains: searchText
+          }
+        }
+      ]
+    });
+  }
+
+  if (competencyId) {
+    filters.push({
+      property: "Competencies",
+      relation: {
+        contains: competencyId
+      }
+    });
+  }
+
+  if (fromDate) {
+    filters.push({
+      property: "Date",
+      date: {
+        on_or_after: fromDate
+      }
+    });
+  }
+
+  const queryBody: any = {};
+  
+  if (filters.length === 1) {
+    queryBody.filter = filters[0];
+  } else if (filters.length > 1) {
+    queryBody.filter = {
+      and: filters
+    };
+  }
+
+  // Sort by date, most recent first
+  queryBody.sorts = [
+    {
+      property: "Date",
+      direction: "descending"
+    }
+  ];
+
+  return queryDatabase(evidenceDatabaseId, queryBody);
+}
+
+/**
+ * Get detailed information about a specific evidence entry
+ * @param evidenceId - The page ID of the evidence entry
+ * @returns Evidence details formatted for display
+ */
+export async function getEvidenceDetails(evidenceId: string) {
+  try {
+    const page: any = await notionRequest(`https://api.notion.com/v1/pages/${evidenceId}`);
+    const properties = page.properties;
+
+    // Extract evidence data
+    const summary = properties.Summary?.title?.[0]?.text?.content || "";
+    const date = properties.Date?.date?.start || null;
+    const whatHappened = properties["What happened"]?.rich_text?.[0]?.text?.content || "";
+    const competencies = properties.Competencies?.relation || [];
+    const topics = properties.Topics?.relation || [];
+
+    return {
+      id: page.id,
+      summary,
+      date,
+      whatHappened,
+      competencyIds: competencies.map((c: any) => c.id),
+      topicIds: topics.map((t: any) => t.id),
+      url: page.url
+    };
+  } catch (error) {
+    console.error(`Error fetching evidence details for ${evidenceId}:`, error);
+    return {
+      id: evidenceId,
+      summary: "Error loading",
+      date: null,
+      whatHappened: "",
+      competencyIds: [],
+      topicIds: [],
+      url: null
+    };
+  }
+}

@@ -84,6 +84,18 @@ export const UpdateEvidenceInputSchema = z.object({
   topicIds: z.array(z.string()).optional()
 });
 
+// Schema for searching evidence
+export const SearchEvidenceInputSchema = z.object({
+  searchText: z.string().optional(),
+  competencyId: z.string().optional(),
+  fromDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format").optional()
+});
+
+// Schema for getting evidence details
+export const GetEvidenceInputSchema = z.object({
+  evidenceId: z.string().min(1, "Evidence ID is required")
+});
+
 export type DateRangeInput = z.infer<typeof DateRangeInputSchema>;
 export type DatabaseMetadataInput = z.infer<typeof DatabaseMetadataInputSchema>;
 export type StartTimesheetInput = z.infer<typeof StartTimesheetInputSchema>;
@@ -96,3 +108,5 @@ export type UpdateActivityInput = z.infer<typeof UpdateActivityInputSchema>;
 export type SearchCompetenciesInput = z.infer<typeof SearchCompetenciesInputSchema>;
 export type CreateEvidenceInput = z.infer<typeof CreateEvidenceInputSchema>;
 export type UpdateEvidenceInput = z.infer<typeof UpdateEvidenceInputSchema>;
+export type SearchEvidenceInput = z.infer<typeof SearchEvidenceInputSchema>;
+export type GetEvidenceInput = z.infer<typeof GetEvidenceInputSchema>;
