@@ -355,6 +355,55 @@
 					"response": []
 				},
 				{
+					"name": "Search Evidence",
+					"id": "2015465-d1aff584-1bf9-49ee-845f-ff1fe8fca9bb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{NOTION_TOKEN}}"
+							},
+							{
+								"key": "Notion-Version",
+								"value": "2022-06-28"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.notion.com/v1/databases/{{TOPICS_DB_ID}}/query",
+							"protocol": "https",
+							"host": [
+								"api",
+								"notion",
+								"com"
+							],
+							"path": [
+								"v1",
+								"databases",
+								"{{TOPICS_DB_ID}}",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Search Responsibilities",
 					"id": "2015465-806bb57c-9c24-4608-9159-3538b84bc0b1",
 					"protocolProfileBehavior": {
