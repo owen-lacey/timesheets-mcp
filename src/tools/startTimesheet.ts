@@ -11,26 +11,27 @@ export async function startTimesheetTool(
   try {
     // Validate input
     const validatedInput = StartTimesheetInputSchema.parse(input);
-    const { description, activityId, topicId, startTime } = validatedInput;
+    const { description, activityId, topicId, client, date, startTime } = validatedInput;
 
     // Use current date and time if not provided
-    const date = getCurrentDate();
+    const actualDate = date || getCurrentDate();
     const actualStartTime = startTime || getCurrentTime();
 
     const result = await createTimesheet(
       timesheetsDatabaseId,
       description,
-      date,
+      actualDate,
       actualStartTime,
       activityId,
-      topicId
+      topicId,
+      client
     );
 
     return {
       content: [
         {
           type: "text" as const,
-          text: `Successfully started timesheet:\n- ID: ${result.id}\n- Description: ${description}\n- Date: ${date}\n- Start time: ${actualStartTime}\n- Activity ID: ${activityId || 'None'}\n- Topic ID: ${topicId || 'None'}`
+          text: `Successfully started timesheet:\n- ID: ${result.id}\n- Description: ${description}\n- Date: ${actualDate}\n- Start time: ${actualStartTime}\n- Activity ID: ${activityId || 'None'}\n- Topic ID: ${topicId || 'None'}\n- Client: ${client || 'None'}`
         }
       ]
     };

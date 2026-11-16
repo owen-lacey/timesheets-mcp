@@ -50,8 +50,8 @@ A Model Context Protocol (MCP) server that provides a comprehensive interface to
 ### Core Timesheet Operations
 - `getTodaysTimesheets` - Get all timesheet entries for today
 - `getTimesheetsByDateRange` - Query timesheets by date range
-- `startTimesheet` - Create a new timesheet entry
-- `endTimesheet` - Complete a timesheet with end time and mood
+- `startTimesheet` - Create a new timesheet entry; optional `date` (YYYY-MM-DD, defaults to today) for backfilling and `client` (Client select)
+- `endTimesheet` - Complete a timesheet with end time and optional mood
 - `updateTimesheetMood` - Update mood for existing timesheet
 
 ### Search & Management

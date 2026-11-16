@@ -18,13 +18,15 @@ export const StartTimesheetInputSchema = z.object({
   description: z.string().min(1, "Description is required"),
   activityId: z.string().optional(),
   topicId: z.string().optional(),
+  client: z.string().min(1).optional(),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format").optional(),
   startTime: z.string().regex(/^\d{2}:\d{2}$/, "Start time must be in HH:MM format").optional()
 });
 
 // Schema for ending timesheet
 export const EndTimesheetInputSchema = z.object({
   timesheetId: z.string().min(1, "Timesheet ID is required"),
-  mood: z.string().min(1, "Mood is required"),
+  mood: z.string().min(1).optional(),
   endTime: z.string().regex(/^\d{2}:\d{2}$/, "End time must be in HH:MM format").optional()
 });
 

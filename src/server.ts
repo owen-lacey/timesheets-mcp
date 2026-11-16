@@ -121,11 +121,13 @@ server.registerTool('getDatabaseMetadata', {
 
 // Tool 4: Start timesheet
 server.registerTool('startTimesheet', {
-  description: "Creates a new timesheet entry with current timestamp as start time",
+  description: "Creates a new timesheet entry. date defaults to today and startTime to now, so past days can be backfilled by passing both. client is the Client select value (e.g. OAG, ECI, CreateFuture).",
   inputSchema: {
     description: z.string().min(1, "Description is required"),
     activityId: z.string().optional(),
     topicId: z.string().optional(),
+    client: z.string().min(1).optional(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format").optional(),
     startTime: z.string().regex(/^\d{2}:\d{2}$/, "Start time must be in HH:MM format").optional()
   }
 }, async (request: any) => {
@@ -134,10 +136,10 @@ server.registerTool('startTimesheet', {
 
 // Tool 5: End timesheet
 server.registerTool('endTimesheet', {
-  description: "Updates an existing timesheet entry with end time and mood",
+  description: "Updates an existing timesheet entry with end time and, optionally, mood",
   inputSchema: {
     timesheetId: z.string().min(1, "Timesheet ID is required"),
-    mood: z.string().min(1, "Mood is required"),
+    mood: z.string().min(1).optional(),
     endTime: z.string().regex(/^\d{2}:\d{2}$/, "End time must be in HH:MM format").optional()
   }
 }, async (request: any) => {

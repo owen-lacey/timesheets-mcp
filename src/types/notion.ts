@@ -39,6 +39,7 @@ export interface TimesheetEntry {
   duration: number;
   activities: ActivityDetails[];
   topics: string[];
+  client: string;
   mood: string;
 }
 

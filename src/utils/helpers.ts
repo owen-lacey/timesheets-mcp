@@ -29,6 +29,7 @@ export async function formatTimesheetEntry(page: any) {
     duration: properties.Duration?.formula?.number || 0,
     activities: activityDetails,
     topics: properties.Topics?.relation?.map((rel: any) => rel.id) || [],
+    client: properties.Client?.select?.name || '',
     mood: properties['']?.select?.name || '',
   };
 }

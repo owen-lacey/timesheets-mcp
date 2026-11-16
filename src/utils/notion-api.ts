@@ -141,6 +141,7 @@ export async function createTimesheet(
   startTime: string,
   activityId?: string,
   topicId?: string,
+  client?: string,
   mood?: string
 ) {
   const properties: any = {
@@ -186,6 +187,14 @@ export async function createTimesheet(
           "id": topicId
         }
       ]
+    };
+  }
+
+  if (client) {
+    properties["Client"] = {
+      "select": {
+        "name": client
+      }
     };
   }
 

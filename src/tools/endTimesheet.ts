@@ -19,7 +19,7 @@ export async function endTimesheetTool(input: EndTimesheetInput) {
       content: [
         {
           type: "text" as const,
-          text: `Successfully ended timesheet:\n- ID: ${timesheetId}\n- End time: ${actualEndTime}\n- Mood: ${mood}`
+          text: `Successfully ended timesheet:\n- ID: ${timesheetId}\n- End time: ${actualEndTime}\n- Mood: ${mood || 'None'}`
         }
       ]
     };
