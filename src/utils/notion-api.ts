@@ -1,3 +1,5 @@
+import { EpisodeMetrics, episodeMetricsToProperties } from './episode-properties.js';
+
 // Function to get and validate the Notion API key
 function getNotionApiKey(): string {
   const notionApiKey = process.env.NOTION_API_KEY;
@@ -134,17 +136,23 @@ export async function getTimesheetsByDateRange(
   return queryDatabase(timesheetsDatabaseId, queryBody);
 }
 
+export interface CreateTimesheetOptions {
+  description: string;
+  date: string;
+  startTime: string;
+  activityId?: string;
+  topicId?: string;
+  client?: string;
+  mood?: string;
+  metrics?: EpisodeMetrics;
+}
+
 export async function createTimesheet(
   timesheetsDatabaseId: string,
-  description: string,
-  date: string,
-  startTime: string,
-  activityId?: string,
-  topicId?: string,
-  client?: string,
-  mood?: string
+  { description, date, startTime, activityId, topicId, client, mood, metrics }: CreateTimesheetOptions
 ) {
   const properties: any = {
+    ...episodeMetricsToProperties(metrics),
     "Desc": {
       "title": [
         {
@@ -376,8 +384,9 @@ export async function updateActivity(
   return updatePage(activityId, updateData);
 }
 
-export async function endTimesheet(timesheetId: string, endTime: string, mood?: string) {
+export async function endTimesheet(timesheetId: string, endTime: string, mood?: string, metrics?: EpisodeMetrics) {
   const properties: any = {
+    ...episodeMetricsToProperties(metrics),
     "End": {
       "rich_text": [
         {

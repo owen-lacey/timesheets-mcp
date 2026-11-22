@@ -1,4 +1,5 @@
 import { getActivityDetails } from './notion-api.js';
+import { readEpisodeMetrics } from './episode-properties.js';
 
 // Helper functions for date and time
 export function getCurrentDate(): string {
@@ -31,5 +32,6 @@ export async function formatTimesheetEntry(page: any) {
     topics: properties.Topics?.relation?.map((rel: any) => rel.id) || [],
     client: properties.Client?.select?.name || '',
     mood: properties['']?.select?.name || '',
+    ...readEpisodeMetrics(properties),
   };
 }

@@ -13,6 +13,20 @@ export const DatabaseMetadataInputSchema = z.object({
   databaseType: z.enum(["timesheets", "activities", "responsibilities", "topics", "all"]).default("all")
 });
 
+// Episode metrics accepted by startTimesheet and endTimesheet
+export const episodeMetricsShape = {
+  weight: z.number().min(0).max(1).optional()
+    .describe("Share (0-1) of the row's wall-clock time that counts; overlapping rows split their overlap"),
+  activeMin: z.number().int().min(0).optional()
+    .describe("Minutes the work item was actually frontmost"),
+  interruptions: z.number().int().min(0).optional()
+    .describe("Count of hops away that returned to the work item"),
+  switches: z.number().int().min(0).optional()
+    .describe("App/context changes inside the episode"),
+  evidence: z.string().min(1).optional()
+    .describe("Free-text evidence for the episode (top contexts with minutes, per-client split). Plain text, not the Evidence database"),
+};
+
 // Schema for starting timesheet
 export const StartTimesheetInputSchema = z.object({
   description: z.string().min(1, "Description is required"),
@@ -20,14 +34,16 @@ export const StartTimesheetInputSchema = z.object({
   topicId: z.string().optional(),
   client: z.string().min(1).optional(),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format").optional(),
-  startTime: z.string().regex(/^\d{2}:\d{2}$/, "Start time must be in HH:MM format").optional()
+  startTime: z.string().regex(/^\d{2}:\d{2}$/, "Start time must be in HH:MM format").optional(),
+  ...episodeMetricsShape
 });
 
 // Schema for ending timesheet
 export const EndTimesheetInputSchema = z.object({
   timesheetId: z.string().min(1, "Timesheet ID is required"),
   mood: z.string().min(1).optional(),
-  endTime: z.string().regex(/^\d{2}:\d{2}$/, "End time must be in HH:MM format").optional()
+  endTime: z.string().regex(/^\d{2}:\d{2}$/, "End time must be in HH:MM format").optional(),
+  ...episodeMetricsShape
 });
 
 // Schema for updating timesheet mood

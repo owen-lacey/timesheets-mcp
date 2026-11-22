@@ -115,7 +115,14 @@ This server works with six interconnected Notion databases:
 - `End` (rich_text): End time in HH:MM format  
 - `Activities` (relation): Links to Activities database
 - `Topics` (relation): Links to Topics/Responsibilities database
+- `Client` (select): Client the time is for (e.g. OAG, ECI, CreateFuture)
+- `Duration` (formula): Hours between Start and End (read-only)
 - `""` (select): Mood emoji (property name is empty string)
+- `Weight` (number): Share (0–1) of the row's wall-clock time that counts, for overlapping rows
+- `Active min` (number): Minutes the work item was actually frontmost
+- `Interruptions` (number): Hops away that returned to the work item
+- `Switches` (number): App/context changes inside the episode
+- `Evidence` (rich_text): Free-text evidence for the episode (not the Evidence database)
 
 ### Activities Database (Optional)
 - `Name` (title): Activity name

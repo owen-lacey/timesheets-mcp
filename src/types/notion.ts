@@ -41,6 +41,11 @@ export interface TimesheetEntry {
   topics: string[];
   client: string;
   mood: string;
+  weight: number | null;
+  activeMin: number | null;
+  interruptions: number | null;
+  switches: number | null;
+  evidence: string;
 }
 
 export interface ActivityDetails {
